@@ -1,0 +1,51 @@
+Simulator_setup:
+
+timestep 1
+final_timestep 1500
+save_directory cal
+
+Model_structure:
+
+group basic OSN 100
+group basic Mitral 100
+group basic PG 100
+group basic GC 100
+group basic ET 100
+group calcium_pyr Pyr 100
+
+connect_one_to_one OSN_to_PG {OSN} {PG}
+connect_one_to_one OSN_to_Mi {OSN} {Mitral}
+connect_one_to_one OSN_to_ET {OSN} {ET}
+connect             Mi_to_GC {Mitral} {GC} 0.75
+connect_one_to_one  GC_to_Mi {GC} {Mitral}
+connect_one_to_one  Mi_to_Pyr {Mitral} {Pyr}
+#^should not be one to one
+connect		   Pyr_to_Pyr hat {Pyr} {Pyr} 0.1
+
+
+
+Parameters:
+
+edit_neurons {OSN}    time_constant 1, resting_voltage 0, sigmoid_center 0.7, sigmoid_slope 0.15
+edit_neurons {Mitral} time_constant 2.6, resting_voltage 0, sigmoid_center 0.2, sigmoid_slope 0.02
+edit_neurons {PG}     time_constant 2, resting_voltage 0, sigmoid_center 1.5, sigmoid_slope 0.15
+edit_neurons {GC}     time_constant 2.2, resting_voltage 0, sigmoid_center 1.5, sigmoid_slope 0.02, refractory_voltage 0
+edit_neurons {ET}     time_constant 2, resting_voltage 0, sigmoid_center 2.5, sigmoid_slope 0.15
+edit_neurons {Pyr}    time_constant 3, resting_voltage 0, sigmoid_center 1.5, sigmoid_slope 0.15, calcium_inhibition_slope 1, calcium_inhibition_sample_t 50, refractory_voltage 0
+
+
+edit_connection OSN_to_PG initial_weight 0.0015, E 70, tau1 1, tau2 2
+edit_connection OSN_to_Mi initial_weight 0.003,  E 70, tau1 1, tau2 4
+edit_connection OSN_to_ET initial_weight 0.0015, E 70, tau1 1, tau2 4
+edit_connection Mi_to_GC  initial_weight 0.0015, E 70, tau1 1.8, tau2 3.6,
+edit_connection GC_to_Mi  initial_weight 0.03, E -10, tau1 1.8, tau2 3.6
+edit_connection Mi_to_Pyr initial_weight 0.025,  E 70, tau1 1, tau2 4
+edit_connection Pyr_to_Pyr initial_weight 0.000 E 70, tau1 1, tau2 2, exite_width 9, inhib_width 20.0, exite_magnitude 1.0, inhib_magnitude 1.0, weight_change 0.0015
+
+#sniff {<neuro_group>} {<start>:<end>} <max_value> <frequency> <centered on which neuron> <standard deviation>
+sniff {OSN} {1:110} 1. 8 75 10
+sniff {OSN} {150:1100} 1. 8 75 10
+sniff {OSN} {150:1100} 1. 8 25 10
+sniff {OSN} {1250:1500} 1. 8 75 10
+
+#sniff {OSN} {100:1100} 1. 8 50 20
