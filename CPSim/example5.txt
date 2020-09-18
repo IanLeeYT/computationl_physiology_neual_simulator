@@ -1,8 +1,8 @@
 Simulator_setup:
 
 timestep 1
-final_timestep 1500
-save_directory cal
+final_timestep 500
+#save_directory cal
 
 Model_structure:
 
@@ -43,9 +43,9 @@ edit_connection Mi_to_Pyr initial_weight 0.025,  E 70, tau1 1, tau2 4
 edit_connection Pyr_to_Pyr initial_weight 0.000 E 70, tau1 1, tau2 2, exite_width 9, inhib_width 20.0, exite_magnitude 1.0, inhib_magnitude 1.0, weight_change 0.0015
 
 #sniff {<neuro_group>} {<start>:<end>} <max_value> <frequency> <centered on which neuron> <standard deviation>
-sniff {OSN} {1:110} 1. 8 75 10
-sniff {OSN} {150:1100} 1. 8 75 10
-sniff {OSN} {150:1100} 1. 8 25 10
-sniff {OSN} {1250:1500} 1. 8 75 10
+#sniff {OSN} {1:110} 1. 8 75 10
+#sniff {OSN} {150:1100} 1. 8 75 10
+#sniff {OSN} {150:1100} 1. 8 25 10
+#sniff {OSN} {1250:1500} 1. 8 75 10
 
-#sniff {OSN} {100:1100} 1. 8 50 20
+sniff {OSN} {50:450} 1. 8 50 20

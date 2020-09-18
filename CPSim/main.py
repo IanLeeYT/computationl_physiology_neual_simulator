@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 import saver
+import threading
+
 # from scipy import signal
 # import concurrent.futures
 # import multiprocessing
@@ -27,16 +29,20 @@ def raster():
     plt.ylabel("Neuron number")
     plt.xlabel("timestep")
     plt.title("raster")
-    plt.show()
+
+
+def post_processing_inputs():
+    for i in range(10000):
+        print(i)
+        time.sleep(0.1)
 
 
 if __name__ == "__main__":
     seed = 2
     pn = 3
 
-    # Change the file variable to the file you want to run.
-    file = "example5.txt"
-    file = "cal/state.txt"
+    # get model file name from metadata.txt or from console
+    file = Interpreter.get_filename()
 
     # building or loading model
     vals = Interpreter.interpret_file(file)
@@ -160,3 +166,8 @@ if __name__ == "__main__":
 
     print("total time taken:", sum(time_taken))
     raster()
+    # plt.show(block=False)
+    plt_thread = threading.Thread(target=post_processing_inputs, daemon=True)
+    plt_thread.start()
+
+    plt.show()

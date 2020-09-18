@@ -1,6 +1,8 @@
 import Neuron, Synapse
 import numpy as np
 import random
+import sys
+import os
 
 line_no = 0
 start_model = "Model_structure"
@@ -406,6 +408,7 @@ def interpret_subparams(remaining, length):
             raise Exception("Invalid probability distribution for parameter: {}".format(parameter_name))
     return parameter_name, val, remaining[used:]
 
+
 def interpret_brace(words):
     global total_neuron_number, neuron_dict
     lst = []
@@ -464,9 +467,58 @@ def interpret_integer_brace(words):
     lst.sort()
     return lst
 
+
 def inputs_ex(num, key, words):
     if len(words) != num:
         raise Exception("Wrong number of inputs for {}".format(key))
+
+
+def get_filename():
+    ye, no = ["y", "yes", "1", "Y"], ["n", "no", "0", "N"]
+    meta_data = "metadata.txt"
+    if os.path.exists(meta_data):
+        md = open(meta_data, "r")
+        d = md.readlines()
+        d = [x.rstrip() for x in d]
+        md.close()
+        if d[0] == "force":
+            fn = d[1]
+            print(fn)
+            if os.path.exists(fn):
+                print("Using forced model from "+str(fn))
+                return fn
+            else:
+                raise Exception("Forced file name does not exist. Please edit or delete \"metadata.txt\".")
+        else:
+            fn = d[0]
+            if os.path.exists(fn):
+                use = input(("Should the last used model from "+str(fn)+" be loaded? y/n:\n"))
+                while use not in ye and use not in no:
+                    use = input(("INVALID INPUT: Should the model from " + str(fn) + " be loaded? y/n:\n"))
+                if use in ye:
+                    return fn
+                elif use in no:
+                    fn = input("Enter new file name/path:\n")
+                    while not os.path.exists(fn):
+                        print("The file or path entered does not exist")
+                        fn = input("INVALID INPUT: Enter new file name/path:\n")
+                    md = open(meta_data, "w")
+                    md.write(fn)
+                    md.close()
+                    return fn
+                else:
+                    raise Exception("INPUT BROKEN: CONTACT CODE WRITER - krm74@cornell.edu")
+            else:
+                raise Exception("Old file name does not exist. Please edit or delete \"metadata.txt\".")
+    else:
+        fn = input("Enter new file name/path:\n")
+        while not os.path.exists(fn):
+            print("The file or path entered does not exist")
+            fn = input("INVALID INPUT: Enter new file name/path:\n")
+        md = open(meta_data, "w")
+        md.write(fn)
+        md.close()
+        return fn
 
 
 if __name__ == "__main__":
