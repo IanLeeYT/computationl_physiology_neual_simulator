@@ -1,4 +1,5 @@
-import Neuron, Synapse
+import Neuron
+import Synapse
 import numpy as np
 import random
 import sys
@@ -108,7 +109,7 @@ def interpret_model_structure(file):
                 else:
                     nclass_dict[neuron_type] = [novel]
             total_neuron_number += group_size
-            neuron_dict[group_name] = [s.id for s in lst]
+            neuron_dict[group_name] = lst
             group_names.append(group_name)
 
         elif words[0] == "connect":
@@ -432,7 +433,7 @@ def interpret_brace(words):
             try:
                 val = [int(word)]
             except ValueError:
-                val = neuron_dict[word]
+                val = [neuron.id for neuron in neuron_dict[word]]
             lst.extend(val)
 
     lst = list(dict.fromkeys(lst))
@@ -527,7 +528,7 @@ if __name__ == "__main__":
     interpret_file(file_name)
     print(group_names)
     for name in group_names:
-        print(neuron_dict[name])
+        print([neuron.id for neuron in neuron_dict[name]])
 
     print(connection_names)
     for name in connection_names:

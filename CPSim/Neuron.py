@@ -98,7 +98,6 @@ class NSNeuron:
 class CPNeuron:
 
     def __init__(self, id_no, final_timestep):
-        # TODO: INCLUDE ANY PARAMETERS NECESSARY FOR CALCIUM ADAPTATION
         self.id = id_no
         self.param_dict = {
             "time_constant": 1.,
@@ -123,7 +122,6 @@ class CPNeuron:
             self.voltage_history[0] = self.param_dict["resting_voltage"]
 
     def update_voltage(self, step_number, timestep, artificial_stimulus):
-        # TODO: INCLUDE CALCIUM ADAPTATION SO THAT THE NEURON IS LESS LIKELY TO FIRE WITH A CONSTANT INPUT.
         """
         Called once for every neuron at every timestep.
 
@@ -172,6 +170,7 @@ class CPNeuron:
         # if k != 0:
         #     print("cal", k, coef)
         return coef
+
 
 neuron_names = {
     "basic": Neuron,

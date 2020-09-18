@@ -1,8 +1,8 @@
 import numpy as np
 import random
 
-class Synapse:
 
+class Synapse:
     def __init__(self, f, t, final_timestep):
         self.pre = f
         self.post = t
@@ -55,7 +55,7 @@ class Synapse:
         rsi = -1 * timestep * (step_number - rs)
 
         g = self.g_max * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"]))
-        #g = np.abs(1 * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"])))
+        # g = np.abs(1 * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"])))
 
         prev_v = self.post.voltage_history[step_number - 1] if self.post.output_history[step_number - 1] == 0 else \
             self.post.param_dict["resting_voltage"]
@@ -65,7 +65,6 @@ class Synapse:
         #     print(g, cur)
 
         return cur
-
 
     def update_weights(self,  step_number, timestep):
         """
@@ -170,7 +169,6 @@ class NonfireSynapse:
 
 class STDPSynapse:
     def __init__(self, f, t, final_timestep):
-        # TODO: include any parameters for the spike time dependant learning rule (spike timing dependant plasticity)
         self.pre = f
         self.post = t
         self.pre.post.append(self)
@@ -238,7 +236,6 @@ class STDPSynapse:
         return cur
 
     def update_weights(self,  step_number, timestep):
-        # TODO: include a spike time dependant learning rule (spike timing dependant plasticity)
         """
         Use a learning rule to update the weight of this synapse
         must set self.weight_history[step_number]
@@ -246,7 +243,7 @@ class STDPSynapse:
         :param step_number: the timestep number of this call of the function
         :param timestep: the size of one timestep in ms
         """
-        #prev_w = ((self.weight_history[step_number - 1] - self.param_dict["initial_weight"]) *
+        # prev_w = ((self.weight_history[step_number - 1] - self.param_dict["initial_weight"]) *
         #          np.exp(-1 * timestep / self.param_dict["decay"])) + self.param_dict["initial_weight"]
         prev_w = self.weight_history[step_number - 1]
         self.weight_history[step_number] = prev_w + self.STDP_value(step_number)
@@ -277,7 +274,6 @@ class STDPSynapse:
 
 class SombreroSynapse:
     def __init__(self, f, t, final_timestep):
-        # TODO: include any parameters for the spike time dependant learning rule (spike timing dependant plasticity)
         self.pre = f
         self.post = t
         self.pre.post.append(self)
@@ -335,7 +331,7 @@ class SombreroSynapse:
         rsi = -1 * timestep * (step_number - rs)
 
         g = self.g_max * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"]))
-        #g = np.abs(1 * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"])))
+        # g = np.abs(1 * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"])))
 
         prev_v = self.post.voltage_history[step_number - 1] if self.post.output_history[step_number - 1] == 0 else \
             self.post.param_dict["resting_voltage"]
@@ -345,20 +341,6 @@ class SombreroSynapse:
         #     print(g, cur)
 
         return cur
-
-    def update_weights(self,  step_number, timestep):
-        # TODO: include a spike time dependant learning rule (spike timing dependant plasticity)
-        """
-        Use a learning rule to update the weight of this synapse
-        must set self.weight_history[step_number]
-
-        :param step_number: the timestep number of this call of the function
-        :param timestep: the size of one timestep in ms
-        """
-        #prev_w = ((self.weight_history[step_number - 1] - self.param_dict["initial_weight"]) *
-        #          np.exp(-1 * timestep / self.param_dict["decay"])) + self.param_dict["initial_weight"]
-        prev_w = self.weight_history[step_number - 1]
-        self.weight_history[step_number] = prev_w + self.Sombrero_value(step_number)
 
     def Sombrero_value(self, step_number):
         if self.pre.output_history[step_number] or self.post.output_history[step_number]:
@@ -381,6 +363,19 @@ class SombreroSynapse:
                 return self.param_dict["weight_change"] * change
         return 0
 
+    def update_weights(self,  step_number, timestep):
+        # TODO: include a spike time dependant learning rule (spike timing dependant plasticity)
+        """
+        Use a learning rule to update the weight of this synapse
+        must set self.weight_history[step_number]
+
+        :param step_number: the timestep number of this call of the function
+        :param timestep: the size of one timestep in ms
+        """
+        #prev_w = ((self.weight_history[step_number - 1] - self.param_dict["initial_weight"]) *
+        #          np.exp(-1 * timestep / self.param_dict["decay"])) + self.param_dict["initial_weight"]
+        prev_w = self.weight_history[step_number - 1]
+        self.weight_history[step_number] = prev_w + self.Sombrero_value(step_number)
 
 
 synapse_names = {

@@ -26,7 +26,7 @@ def save(in_vars):
     for group_name in group_names:
         lst = neuron_dict[group_name]
         cls_name = list(Neuron.neuron_names.keys())[list(Neuron.neuron_names.values()).index
-                                                    (all_neurons[lst[0]].__class__)]
+                                                    (lst[0].__class__)]
         # print(group_name, cls_name)
         file.write("group "+cls_name+" "+group_name+" "+str(len(lst))+"\n")
     file.write("\n")

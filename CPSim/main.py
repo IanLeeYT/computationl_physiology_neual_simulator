@@ -5,36 +5,21 @@ import time
 import saver
 import threading
 
-# from scipy import signal
-# import concurrent.futures
-# import multiprocessing
-# import multiprocess
-
 
 def raster():
     # plots a raster plot (spike timing plot) for all neurons. colors different groups different colors
-    rs = np.random.RandomState(seed)
-    col = np.sqrt(rs.random_sample((3, len(group_names))))
-    col[2] = np.maximum((1 - col[1]), (1 - col[0]))
-    colors = np.zeros((3, total_neuron_number))
-    for j in range(len(group_names)):
-        for i2 in neuron_dict[group_names[j]]:
-            colors[:, i2] = col[:, j]
-    # plt.figure()
     fires = [np.greater(np.array(all_neurons[i].output_history), 0.1) for i in range(total_neuron_number)]
     fire_times = [[j for j in range(len(fires[i])) if fires[i][j]] for i in range(total_neuron_number)]
-    # print(fire_times)
     fig, axs = plt.subplots(1, 1)
-    axs.eventplot(fire_times, linelengths=0.5, colors="black")#, colors=np.transpose(colors))
+    axs.eventplot(fire_times, linelengths=0.5, colors="black")
     plt.ylabel("Neuron number")
     plt.xlabel("timestep")
     plt.title("raster")
 
 
 def post_processing_inputs():
-    for i in range(10000):
-        print(i)
-        time.sleep(0.1)
+    # TODO
+    pass
 
 
 if __name__ == "__main__":
@@ -99,7 +84,7 @@ if __name__ == "__main__":
                 plt.axvline(x, color="lightpink", linestyle='dashed')
         plt.plot(all_neurons[100 * i + 50].voltage_history)
         plt.title(use[i])
-    plt.tight_layout(pad = 1)
+    plt.tight_layout(pad=1)
 
 
     # plot weight changes
@@ -121,7 +106,7 @@ if __name__ == "__main__":
             plt.plot(v/len(connection_dict[nome3[i]]))
         else:
             plt.plot(connection_dict[nome3[i]][len(connection_dict[nome3[i]])//2].weight_history)
-    plt.tight_layout(pad = 1)
+    plt.tight_layout(pad=1)
 
 
     # plotting power spectra
@@ -139,12 +124,12 @@ if __name__ == "__main__":
         plt.title(use[i] + "fft")
         plt.xlim((0, 100))
         plt.ylim((0, 4000))
-    plt.tight_layout(pad = 1)
+    plt.tight_layout(pad=1)
 
     # plotting spectrogram
     plt.figure()
     plt.title("spectrogram")
-    Fs = 1000  #sampling frequency
+    Fs = 1000  # sampling frequency
     for i in range(len(group_names)):
         plt.subplot(320 + i + 1)
         plt.title(use[i] + " spec")
@@ -152,8 +137,8 @@ if __name__ == "__main__":
         for n in all_neurons[i*(100):i*(100)+100]:
             v += n.output_history
 
-        #f, t, Sxx = signal.spectrogram(x/100, fs = 1000)
-        #plt.pcolormesh(t, f, Sxx, shading='gouraud')
+        # f, t, Sxx = signal.spectrogram(x/100, fs = 1000)
+        # plt.pcolormesh(t, f, Sxx, shading='gouraud')
         nfft = 100
         noverlap = 85
         if i == 6:
@@ -161,8 +146,8 @@ if __name__ == "__main__":
         plt.specgram(v/100, Fs=Fs, NFFT=nfft, noverlap=noverlap)
         plt.xlabel('Time[s]')
         plt.ylabel('Frequency[Hz]')
-        plt.ylim((0,100))
-    plt.tight_layout(pad = 1.5)
+        plt.ylim((0, 100))
+    plt.tight_layout(pad=1.5)
 
     print("total time taken:", sum(time_taken))
     raster()
