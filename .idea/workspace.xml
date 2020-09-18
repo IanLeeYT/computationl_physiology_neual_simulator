@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cfc45111-8b2e-4453-b53a-96a93ed7c6a2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/CPSim.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CPSim.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CPSim/Interpreter.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/Interpreter.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CPSim/Neuron.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/Neuron.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CPSim/Synapse.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/Synapse.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CPSim/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CPSim/saver.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/saver.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,7 +14,14 @@
     <SUITE FILE_PATH="coverage/CPSim$main.coverage" NAME="main Coverage Results" MODIFIED="1600304264801" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/CPSim" />
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Kyrus Mama &lt;krm74@cornell.edu&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SET_USER_NAME_GLOBALLY" value="false" />
+    <option name="SIGN_OFF_COMMIT" value="true" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
@@ -80,6 +81,14 @@
       <updated>1600291974796</updated>
       <workItem from="1600291976353" duration="6211000" />
     </task>
+    <task id="LOCAL-00001" summary="Updated README.md with information on how to build a model.&#10;Switched neuron_dict so that it now contains neuron instances instead of ids. &#10;General code cleanup.">
+      <created>1600401067517</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1600401067517</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -88,7 +97,15 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Updated README.md with information on how to build a model.&#10;Switched neuron_dict so that it now contains neuron instances instead of ids. &#10;General code cleanup." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated README.md with information on how to build a model.&#10;Switched neuron_dict so that it now contains neuron instances instead of ids. &#10;General code cleanup." />
+  </component>
   <component name="WindowStateProjectService">
+    <state x="614" y="114" key="CommitChangelistDialog2" timestamp="1600401066487">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="614" y="114" key="CommitChangelistDialog2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600401066487" />
     <state width="1899" height="269" key="GridCell.Tab.0.bottom" timestamp="1600400587071">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -109,5 +126,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="290" y="281" key="SettingsEditor/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600391898129" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1600401090534">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600401090534" />
   </component>
 </project>
