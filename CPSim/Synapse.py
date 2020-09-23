@@ -1,5 +1,6 @@
 import numpy as np
 import random
+import Cache
 
 
 class Synapse:
@@ -48,19 +49,31 @@ class Synapse:
         :param timestep: the size of one timestep in ms
         :return: The effect this synapse will have on its post neuron
         """
-        rs = np.arange(self.pre.output_history.shape[0])[max(0, step_number - 100): step_number]\
-                    [np.greater(self.pre.output_history, 0)[max(0, step_number - 100): step_number]]
-        if rs.shape[0] > self.param_dict["relevant_spike_no"]:
-            rs = rs[-1 * int(self.param_dict["relevant_spike_no"]):]
-        rsi = -1 * timestep * (step_number - rs)
+        key_g_sum = ("sum_g", step_number, self.pre.id, self.param_dict["relevant_spike_no"],
+                     self.param_dict["tau1"], self.param_dict["tau2"])
+        key_rsi = ("rsi", step_number, self.pre.id, self.param_dict["relevant_spike_no"])
+        if Cache.cache.search(key_g_sum):
+            sum_g = Cache.cache.get(key_g_sum)
+        else:
+            if Cache.cache.search(key_rsi):
+                rsi = Cache.cache.get(key_rsi)
+            else:
+                rs = np.arange(self.pre.output_history.shape[0])[max(0, step_number - 100): step_number] \
+                            [np.greater(self.pre.output_history, 0)[max(0, step_number - 100): step_number]]
+                if rs.shape[0] > self.param_dict["relevant_spike_no"]:
+                    rs = rs[-1 * int(self.param_dict["relevant_spike_no"]):]
+                rsi = -1 * timestep * (step_number - rs)
+                Cache.cache.store(key_rsi, rsi)
 
-        g = self.g_max * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"]))
-        # g = np.abs(1 * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"])))
+            g = self.g_max * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"]))
+            # g = np.abs(1 * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"])))
+            sum_g = np.sum(g)
+            Cache.cache.store(key_g_sum, sum_g)
 
         prev_v = self.post.voltage_history[step_number - 1] if self.post.output_history[step_number - 1] == 0 else \
             self.post.param_dict["resting_voltage"]
 
-        cur = self.weight_history[step_number - 1] * np.sum(g) * (self.param_dict["E"] - prev_v)
+        cur = self.weight_history[step_number - 1] * sum_g * (self.param_dict["E"] - prev_v)
         # if(self.post.id == 350):
         #     print(g, cur)
 
@@ -217,19 +230,31 @@ class STDPSynapse:
         :param timestep: the size of one timestep in ms
         :return: The effect this synapse will have on its post neuron
         """
-        rs = np.arange(self.pre.output_history.shape[0])[max(0, step_number - 100): step_number]\
+        key_g_sum = ("sum_g", step_number, self.pre.id, self.param_dict["relevant_spike_no"],
+                     self.param_dict["tau1"], self.param_dict["tau2"])
+        key_rsi = ("rsi", step_number, self.pre.id, self.param_dict["relevant_spike_no"])
+        if Cache.cache.search(key_g_sum):
+            sum_g = Cache.cache.get(key_g_sum)
+        else:
+            if Cache.cache.search(key_rsi):
+                rsi = Cache.cache.get(key_rsi)
+            else:
+                rs = np.arange(self.pre.output_history.shape[0])[max(0, step_number - 100): step_number] \
                     [np.greater(self.pre.output_history, 0)[max(0, step_number - 100): step_number]]
-        if rs.shape[0] > self.param_dict["relevant_spike_no"]:
-            rs = rs[-1 * int(self.param_dict["relevant_spike_no"]):]
-        rsi = -1 * timestep * (step_number - rs)
+                if rs.shape[0] > self.param_dict["relevant_spike_no"]:
+                    rs = rs[-1 * int(self.param_dict["relevant_spike_no"]):]
+                rsi = -1 * timestep * (step_number - rs)
+                Cache.cache.store(key_rsi, rsi)
 
-        g = self.g_max * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"]))
-        #g = np.abs(1 * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"])))
+            g = self.g_max * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"]))
+            # g = np.abs(1 * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"])))
+            sum_g = np.sum(g)
+            Cache.cache.store(key_g_sum, sum_g)
 
         prev_v = self.post.voltage_history[step_number - 1] if self.post.output_history[step_number - 1] == 0 else \
             self.post.param_dict["resting_voltage"]
 
-        cur = self.weight_history[step_number - 1] * np.sum(g) * (self.param_dict["E"] - prev_v)
+        cur = self.weight_history[step_number - 1] * sum_g * (self.param_dict["E"] - prev_v)
         # if(self.post.id == 350):
         #     print(g, cur)
 
@@ -324,19 +349,31 @@ class SombreroSynapse:
         :param timestep: the size of one timestep in ms
         :return: The effect this synapse will have on its post neuron
         """
-        rs = np.arange(self.pre.output_history.shape[0])[max(0, step_number - 100): step_number]\
+        key_g_sum = ("sum_g", step_number, self.pre.id, self.param_dict["relevant_spike_no"],
+                     self.param_dict["tau1"], self.param_dict["tau2"])
+        key_rsi = ("rsi", step_number, self.pre.id, self.param_dict["relevant_spike_no"])
+        if Cache.cache.search(key_g_sum):
+            sum_g = Cache.cache.get(key_g_sum)
+        else:
+            if Cache.cache.search(key_rsi):
+                rsi = Cache.cache.get(key_rsi)
+            else:
+                rs = np.arange(self.pre.output_history.shape[0])[max(0, step_number - 100): step_number] \
                     [np.greater(self.pre.output_history, 0)[max(0, step_number - 100): step_number]]
-        if rs.shape[0] > self.param_dict["relevant_spike_no"]:
-            rs = rs[-1 * int(self.param_dict["relevant_spike_no"]):]
-        rsi = -1 * timestep * (step_number - rs)
+                if rs.shape[0] > self.param_dict["relevant_spike_no"]:
+                    rs = rs[-1 * int(self.param_dict["relevant_spike_no"]):]
+                rsi = -1 * timestep * (step_number - rs)
+                Cache.cache.store(key_rsi, rsi)
 
-        g = self.g_max * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"]))
-        # g = np.abs(1 * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"])))
+            g = self.g_max * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"]))
+            # g = np.abs(1 * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"])))
+            sum_g = np.sum(g)
+            Cache.cache.store(key_g_sum, sum_g)
 
         prev_v = self.post.voltage_history[step_number - 1] if self.post.output_history[step_number - 1] == 0 else \
             self.post.param_dict["resting_voltage"]
 
-        cur = self.weight_history[step_number - 1] * np.sum(g) * (self.param_dict["E"] - prev_v)
+        cur = self.weight_history[step_number - 1] * sum_g * (self.param_dict["E"] - prev_v)
         # if(self.post.id == 350):
         #     print(g, cur)
 

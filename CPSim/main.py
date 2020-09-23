@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import time
 import saver
 import threading
+import xlsxwriter as xw
 
 
 def raster():
@@ -15,6 +16,53 @@ def raster():
     plt.ylabel("Neuron number")
     plt.xlabel("timestep")
     plt.title("raster")
+
+
+def save_voltage_data_file(neurons, indices, times, name="Neuron_Data"):
+    """
+    neuron: list of neuron types desired
+    indices: tuple/list of tuples that indicates the starting and ending neurons
+    times: tuple of start and end times of recording
+
+    writes data into an excel file
+    """
+    assert isinstance(indices, (list, tuple)), "invalid input: must be tuple or list of tuples"
+    assert isinstance(times, tuple), "invalid time input: must be tuple"
+    if isinstance(indices, tuple):
+        indices = [indices] * len(neurons)
+
+    workbook = xw.Workbook(name + ".xlsx")
+    worksheet = workbook.add_worksheet()
+
+    row_number, col_number = 0, 0
+    title = "The following data records voltages of neuron groups " + str(neurons) \
+            + " from time " + str(times[0]) + " to " + str(times[1]) + " seconds"
+    comment1 = "Row headers are neurons and their indices."
+    comment2 = "Column headers are times in seconds"
+    worksheet.write(row_number, col_number, title)
+    row_number += 1
+    worksheet.write(row_number, col_number, comment1)
+    row_number += 1
+    worksheet.write(row_number, col_number, comment2)
+
+    row_number, col_number = 4, 1
+    time_array = np.arange((times[1] - times[0]) / timestep)
+    for t in range(len(time_array)):
+        worksheet.write(row_number, col_number, t * timestep + times[0])
+        col_number += 1
+
+    row_number, col_number = 5, 0
+    for n in range(len(neurons)):
+        for i in range(indices[n][0], indices[n][1] + 1):
+            worksheet.write(row_number, col_number, neurons[n] + " " + str(i))
+            for t in range(len(time_array)):
+                col_number += 1
+                neuron = neuron_dict[neurons[n]][i]
+                worksheet.write(row_number, col_number, neuron.voltage_history[t])
+            col_number = 0
+            row_number += 1
+    workbook.close()
+    print("excel file saved")
 
 
 def post_processing_inputs():
@@ -154,5 +202,7 @@ if __name__ == "__main__":
     # plt.show(block=False)
     plt_thread = threading.Thread(target=post_processing_inputs, daemon=True)
     plt_thread.start()
+
+    save_voltage_data_file(["OSN", "Mitral", "PG", "GC", "Pyr"], (0, 99), (0, 200), "Neuron_Data")
 
     plt.show()
