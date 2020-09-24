@@ -5,7 +5,7 @@ import time
 import saver
 import threading
 import xlsxwriter as xw
-
+import os
 
 n_plots = 0
 
@@ -63,7 +63,13 @@ def save_data_file(X, Y, X_unit, name, nos, keyword, func, use_name, ids=None):
     writes data into an excel file
     """
 
-    workbook = xw.Workbook(name + ".xlsx")
+    save_xlsx_file_name = name
+    og, cc = save_xlsx_file_name, 1
+    while os.path.isfile(save_xlsx_file_name + '.xlsx'):
+        save_xlsx_file_name = og + str(cc)
+        cc += 1
+    save_xlsx_file_name = save_xlsx_file_name + '.xlsx'
+    workbook = xw.Workbook(save_xlsx_file_name)
     worksheet = workbook.add_worksheet()
 
     row_number, col_number = 0, 0
@@ -83,7 +89,7 @@ def save_data_file(X, Y, X_unit, name, nos, keyword, func, use_name, ids=None):
 
     row_number, col_number = 5, 0
     for i in range(len(Y)):
-        if ids is not None and len(ids) >= len(Y):
+        if ids is not None and len(ids) == len(Y):
             worksheet.write(row_number, col_number, str(ids[i]))
         for t in range(len(X)):
             col_number += 1
@@ -104,22 +110,22 @@ def apply_func(app_func, value_list, times):
         return times, [value_arr], "ms"
     elif app_func == "psd":
         value_list = [np.expand_dims(values_in, 1) for values_in in [values_in[times] for values_in in value_list]]
-        value_arr = np.concatenate(value_list, axis=1).transpose()
-        ff = np.power(np.abs(np.fft.fft(value_arr, axis=1)), 2)
+        value_arr = np.concatenate(value_list, axis=1)
+        ff = np.power(np.abs(np.fft.fft(value_arr, axis=0)), 2)
         omega = np.fft.fftfreq(len(times), timestep/1000)
-        ff = ff[:, :omega.shape[0]//2]
+        ff = (ff[:ff.shape[0] // 2, :]).transpose()
         omega = omega[:omega.shape[0] // 2]
-        nd = np.argmin(np.abs(omega - 200))
-        return omega[:nd], ff[:nd], "Hz"
+        nd = np.argmin(np.abs(omega - 150))
+        return omega[:nd], ff[:, :nd], "Hz"
     elif app_func == "mean_psd":
         value_list = [np.expand_dims(values_in, 1) for values_in in [values_in[times] for values_in in value_list]]
-        value_arr = np.concatenate(value_list, axis=1).transpose()
-        ff = np.power(np.abs(np.fft.fft(value_arr, axis=1)), 2)
-        omega = np.fft.fftfreq(len(times), timestep/1000)
-        ff = ff[:, :omega.shape[0]//2]
+        value_arr = np.concatenate(value_list, axis=1)
+        ff = np.power(np.abs(np.fft.fft(value_arr, axis=0)), 2)
+        omega = np.fft.fftfreq(len(times), timestep / 1000)
+        ff = (ff[:ff.shape[0] // 2, :])
         omega = omega[:omega.shape[0] // 2]
-        ff = np.mean(ff, axis=0)
-        nd = np.argmin(np.abs(omega - 200))
+        ff = np.mean(ff, axis=1).transpose()
+        nd = np.argmin(np.abs(omega - 150))
         return omega[:nd], [ff[:nd]], "Hz"
 
 
@@ -200,8 +206,6 @@ if __name__ == "__main__":
     load_dir, keep_load, save_dir = save_info
 
     starting_timestep, final_timestep = saver.load_data(vals)
-    print("external inputs", external_inputs)
-    print(timestep)
 
     for neuron in all_neurons:
         neuron.update_starting_parameters(load_dir == "")
@@ -209,8 +213,8 @@ if __name__ == "__main__":
         synapse.update_starting_parameters(load_dir == "")
 
     # running model
+    print("setup complete, beginning run")
     time_taken = []
-    pps = -5
     for t in range(starting_timestep, final_timestep):
 
         s = time.time()
@@ -224,14 +228,13 @@ if __name__ == "__main__":
         for synapse in all_connections:
             synapse.update_weights(t, timestep)
         time_taken.append(time.time() - s)
-        if t - pps > (final_timestep//100):
-            print("step number:", t,
-                  "\tpercent done:",
-                  np.round((100.0 * (t - starting_timestep + 1)) / (final_timestep - starting_timestep + 1), 2),
-                  "\ttime per step estimate:",
-                  np.round(np.mean(time_taken[max(0, len(time_taken) - 10):len(time_taken)]), 3),
-                  "\ttime estimate:",
-                  np.round(np.mean(time_taken[max(0, len(time_taken) - 50):len(time_taken)]) * (final_timestep - t), 1))
+        print("step number:", t,
+              "\tpercent done:",
+              np.round((100.0 * (t - starting_timestep + 1)) / (final_timestep - starting_timestep + 1), 2),
+              "\ttime per step estimate:",
+              np.round(np.mean(time_taken[max(0, len(time_taken) - 10):len(time_taken)]), 3),
+              "\ttime estimate:",
+              np.round(np.mean(time_taken[max(0, len(time_taken) - 50):len(time_taken)]) * (final_timestep - t), 1))
 
     # make save
     saver.save(vals)
@@ -253,11 +256,11 @@ if __name__ == "__main__":
         print("You must close the plots to progress to user inputs")
         plt.show()
 
-    # make user defined plots
+    # make user defined plots or saves
     while ret:
         ret = generate_save_or_plot()
         if ret == 2:
             not_first_plot = True
-            print("You must close the plot to continue to enter user inputs")
+            print("You must close the plot to continue to use user inputs")
             plt.show()
 

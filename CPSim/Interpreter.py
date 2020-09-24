@@ -561,6 +561,7 @@ def get_save_selection(line=-1):
 
         n_list = interpret_brace(brace1)
         neuron_list = [all_neurons[x] for x in n_list]
+        print([n.id for n in neuron_list])
         times = interpret_integer_brace(brace2)
 
         grp_name = brace_string1
