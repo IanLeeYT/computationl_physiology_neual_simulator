@@ -8,6 +8,9 @@ import os
 line_no = 0
 start_model = "Model_structure"
 start_params = "Parameters"
+start_output = "Output"
+
+predef_output_lines = []
 
 timestep = 1.0
 final_timestep = 10
@@ -36,6 +39,7 @@ def interpret_file(file_name):
     interpret_simulator_setup(file)
     interpret_model_structure(file)
     interpret_parameters(file)
+    interpret_output_start(file)
 
     save_info = (load_dir, keep_load, save_dir)
     return timestep, final_timestep, total_neuron_number, all_neurons, neuron_dict, group_names, all_connections, \
@@ -257,8 +261,7 @@ def interpret_parameters(file):
 
     line = file.readline()
     line_no += 1
-    while "\n" in line or line != "":
-
+    while (start_output not in line) and ("\n" in line or line != ""):
         words = line.split()
         words = [x for x in words if x != '']
 
@@ -385,6 +388,17 @@ def interpret_parameters(file):
             raise Exception("Invalid expression: {}".format(line))
 
         line = file.readline()
+        line_no += 1
+
+
+def interpret_output_start(file):
+    global line_no, timestep, final_timestep, all_neurons, connection_dict, external_inputs
+
+    line = file.readline()
+    line_no += 1
+    while "\n" in line or line != "":
+        line = file.readline()
+        predef_output_lines.append(line)
         line_no += 1
 
 
@@ -520,6 +534,72 @@ def get_filename():
         md.write(fn)
         md.close()
         return fn
+
+
+def get_save_selection(line=-1):
+    if line == -1:
+        print("Format: <plot/save> neuron <keyword> <func> {<Neurons>} {<times>}")
+        print("or: <plot/save> synapse <keyword> <func> {<Neurons from>} {<Neurons to>} {<times>}")
+        print("or: <plot/save> connection <keyword> <func> <connection name> {<times>}")
+        sel = input("enter save or plot selection, or \"end\"\n")
+    else:
+        sel = line
+    sp = sel.split()
+    sp = [x for x in sp if x != ""]
+    if len(sp) == 0 or sp[0][0] == "#":
+        return None
+    elif sp[0] == "end":
+        return "end"
+    elif sp[1] == "neuron":
+        brace_string = "".join(sp[4:])
+        brace_string1 = brace_string.split("}")[0]
+        brace_string1 = brace_string1.split("{")[1]
+        brace_string2 = brace_string.split("}")[1]
+        brace_string2 = brace_string2.split("{")[1]
+        brace1 = brace_string1.split(",")
+        brace2 = brace_string2.split(",")
+
+        n_list = interpret_brace(brace1)
+        neuron_list = [all_neurons[x] for x in n_list]
+        times = interpret_integer_brace(brace2)
+
+        grp_name = brace_string1
+        return sp[0], sp[1], sp[2], sp[3], neuron_list, times, grp_name
+
+    elif sp[1] == "synapse":
+        brace_string = "".join(sp[4:])
+        brace_string1 = brace_string.split("}")[0]
+        brace_string1 = brace_string1.split("{")[1]
+        brace_string2 = brace_string.split("}")[1]
+        brace_string2 = brace_string2.split("{")[1]
+        brace_string3 = brace_string.split("}")[2]
+        brace_string3 = brace_string3.split("{")[1]
+        brace1 = brace_string1.split(",")
+        brace2 = brace_string2.split(",")
+        brace3 = brace_string3.split(",")
+        from_list = interpret_brace(brace1)
+        to_list = interpret_brace(brace2)
+        times = interpret_integer_brace(brace3)
+        c_list = []
+        for syn in all_connections:
+            if syn.pre.id in from_list and syn.post.id in to_list:
+                c_list.append(syn)
+        grp_name = "from "+brace_string1+" to "+brace_string2
+        return sp[0], sp[1], sp[2], sp[3], c_list, times, grp_name
+
+    elif sp[1] == "connection":
+        c_name = sp[4]
+        brace_string = "".join(sp[5:])
+        brace_string1 = brace_string.split("}")[0]
+        brace_string1 = brace_string1.split("{")[1]
+        brace1 = brace_string1.split(",")
+        times = interpret_integer_brace(brace1)
+        c_list = connection_dict[c_name]
+        return sp[0], sp[1], sp[2], sp[3], c_list, times, c_name
+
+    else:
+        print("Error: invalid input")
+        return None
 
 
 if __name__ == "__main__":

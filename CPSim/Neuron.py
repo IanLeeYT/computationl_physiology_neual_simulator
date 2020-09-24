@@ -14,12 +14,15 @@ class Neuron:
             "refractory_voltage": 0,
             "sigmoid_slope": 0,
             "sigmoid_center": 0,
-
         }
         self.pre = []
         self.post = []
         self.voltage_history = np.zeros(final_timestep)
         self.output_history = np.zeros(final_timestep)
+        self.printable_dict = {
+            "voltage": self.voltage_history,
+            "output": self.output_history
+        }
 
     def update_starting_parameters(self, not_loaded):
         """called once, after all base parameters are set, to update other dependant values"""
@@ -68,6 +71,10 @@ class NSNeuron:
         self.post = []
         self.voltage_history = np.zeros(final_timestep)
         self.output_history = np.zeros(final_timestep)
+        self.printable_dict = {
+            "voltage": self.voltage_history,
+            "output": self.output_history
+        }
 
     def update_starting_parameters(self):
         """called once, after all base parameters are set, to update other dependant values"""
@@ -115,6 +122,10 @@ class CPNeuron:
         self.post = []
         self.voltage_history = np.zeros(final_timestep)
         self.output_history = np.zeros(final_timestep)
+        self.printable_dict = {
+            "voltage": self.voltage_history,
+            "output": self.output_history
+        }
 
     def update_starting_parameters(self, not_loaded):
         """called once, after all base parameters are set, to update other dependant values"""

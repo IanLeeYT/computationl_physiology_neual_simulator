@@ -23,6 +23,9 @@ class Synapse:
         }
         self.weight_history = np.zeros(final_timestep)
         self.g_max = 1
+        self.printable_dict = {
+            "weight": self.weight_history,
+        }
 
     def __repr__(self):
         return "" + str(self.pre.id) + " " + str(self.post.id)
@@ -120,6 +123,9 @@ class NonfireSynapse:
             "sniff_cycle_period": 100
         }
         self.weight_history = np.zeros(final_timestep)
+        self.printable_dict = {
+            "weight": self.weight_history,
+        }
 
     def __repr__(self):
         return "" + str(self.pre.id) + " " + str(self.post.id)
@@ -204,6 +210,9 @@ class STDPSynapse:
         self.g_max = 1
         self.pre_firing_t = np.NINF
         self.post_firing_t = np.NINF
+        self.printable_dict = {
+            "weight": self.weight_history,
+        }
 
     def __repr__(self):
         return "" + str(self.pre.id) + " " + str(self.post.id)
@@ -323,6 +332,9 @@ class SombreroSynapse:
         self.g_max = 1
         self.pre_firing_t = np.NINF
         self.post_firing_t = np.NINF
+        self.printable_dict = {
+            "weight": self.weight_history,
+        }
 
     def __repr__(self):
         return "" + str(self.pre.id) + " " + str(self.post.id)

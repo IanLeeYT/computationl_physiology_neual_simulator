@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cfc45111-8b2e-4453-b53a-96a93ed7c6a2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/CPSim/Cache.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CPSim/old_plots.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CPSim/Cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/Cache.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CPSim/Interpreter.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/Interpreter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CPSim/Neuron.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/Neuron.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CPSim/Synapse.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/Synapse.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CPSim/example5.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/example5.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CPSim/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -31,11 +35,6 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="SET_USER_NAME_GLOBALLY" value="false" />
     <option name="SIGN_OFF_COMMIT" value="true" />
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="23" />
-    <option name="width" value="1680" />
-    <option name="height" value="976" />
   </component>
   <component name="ProjectId" id="1hfA9I1kr8iibPS54pKkIskWYD4" />
   <component name="ProjectViewState">
@@ -126,7 +125,14 @@
       <option name="project" value="LOCAL" />
       <updated>1600401251788</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added a cache for saving reused computation. &#10;Currently only used to recompute the sum_g value (or the rsi value) in Synapse._.get_input()&#10;Major performance improvement - depends on model structure, improvement is proportional to the square of how many synapses start at each neuron (on average)&#10;&#10;Added base saving">
+      <created>1600905282902</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1600905282902</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -138,40 +144,49 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Updated README.md with information on how to build a model.&#10;Switched neuron_dict so that it now contains neuron instances instead of ids. &#10;General code cleanup." />
     <MESSAGE value="Attempted to fix README.md titles" />
-    <option name="LAST_COMMIT_MESSAGE" value="Attempted to fix README.md titles" />
+    <MESSAGE value="Added a cache for saving reused computation. &#10;Currently only used to recompute the sum_g value (or the rsi value) in Synapse._.get_input()&#10;Major performance improvement - depends on model structure, improvement is proportional to the square of how many synapses start at each neuron (on average)&#10;&#10;Added base saving" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added a cache for saving reused computation. &#10;Currently only used to recompute the sum_g value (or the rsi value) in Synapse._.get_input()&#10;Major performance improvement - depends on model structure, improvement is proportional to the square of how many synapses start at each neuron (on average)&#10;&#10;Added base saving" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="614" y="114" key="CommitChangelistDialog2" timestamp="1600401250946">
+    <state x="674" y="323" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1600917903233">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="614" y="114" key="CommitChangelistDialog2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600401250946" />
-    <state width="1899" height="202" key="GridCell.Tab.0.bottom" timestamp="1600904418122">
+    <state x="674" y="323" key="#com.intellij.fileTypes.FileTypeChooser/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600917903233" />
+    <state x="614" y="114" key="CommitChangelistDialog2" timestamp="1600905281858">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="202" key="GridCell.Tab.0.bottom/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600904418122" />
-    <state width="1899" height="202" key="GridCell.Tab.0.center" timestamp="1600904418122">
+    <state x="614" y="114" key="CommitChangelistDialog2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600905281858" />
+    <state width="1899" height="187" key="GridCell.Tab.0.bottom" timestamp="1600923818624">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="202" key="GridCell.Tab.0.center/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600904418122" />
-    <state width="1899" height="202" key="GridCell.Tab.0.left" timestamp="1600904418122">
+    <state width="1899" height="187" key="GridCell.Tab.0.bottom/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600923818624" />
+    <state width="1899" height="187" key="GridCell.Tab.0.center" timestamp="1600923818623">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="202" key="GridCell.Tab.0.left/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600904418122" />
-    <state width="1899" height="202" key="GridCell.Tab.0.right" timestamp="1600904418122">
+    <state width="1899" height="187" key="GridCell.Tab.0.center/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600923818623" />
+    <state width="1899" height="187" key="GridCell.Tab.0.left" timestamp="1600923818623">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="202" key="GridCell.Tab.0.right/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600904418122" />
+    <state width="1899" height="187" key="GridCell.Tab.0.left/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600923818623" />
+    <state width="1899" height="187" key="GridCell.Tab.0.right" timestamp="1600923818624">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="187" key="GridCell.Tab.0.right/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600923818624" />
     <state x="290" y="281" key="SettingsEditor" timestamp="1600391898129">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="290" y="281" key="SettingsEditor/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600391898129" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1600401261068">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1600905294595">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600401261068" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600905294595" />
     <state x="685" y="311" key="git4idea.merge.GitPullDialog" timestamp="1600901523135">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="685" y="311" key="git4idea.merge.GitPullDialog/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600901523135" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1600911812875">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600911812875" />
   </component>
 </project>
