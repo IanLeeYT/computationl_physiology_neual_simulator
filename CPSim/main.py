@@ -25,9 +25,10 @@ def sub_raster(neurons, times):
     fires = [np.greater(np.array(neurons[i].output_history), 0.1) for i in range(len(neurons))]
     fire_times = [[j for j in range(len(fires[i])) if fires[i][j]] for i in range(len(neurons))]
     fire_times = [[t for t in ts if t in times] for ts in fire_times]
-    if not_first_plot:
-        plt.figure()
+    # if not_first_plot:
+    #     plt.figure()
     fig, axs = plt.subplots(1, 1)
+    plt.xlim((np.min(times), np.max(times)))
     axs.eventplot(fire_times, linelengths=0.5, colors="black")
     plt.ylabel("Neuron")
     plt.xlabel("timestep")
@@ -132,12 +133,21 @@ def apply_func(app_func, value_list, times):
 def simplify_plot(X, Y, X_unit, name):
     rows = int(np.sqrt(len(Y)))
     cols = int(np.ceil(len(Y)/rows))
-    if not_first_plot:
-        plt.figure()
-    plt.title(name+" with x-axis unit="+X_unit)
-    for i in range(len(Y)):
-        ax = plt.subplot(rows, cols, i+1)
-        plt.plot(X, Y[i])
+    f, ax = plt.subplots(rows, cols, sharex='all', sharey='all')
+    count = 0
+    for r in range(rows):
+        for c in range(cols):
+            if count >= len(Y):
+                break
+            if rows*cols == 1:
+                ax.plot(X, Y[count])
+            else:
+                ax[r, c].plot(X, Y[count])
+            count += 1
+        if count >= len(Y):
+            break
+    plt.suptitle(name+" with x-axis unit="+X_unit)
+
 
 
 def generate_save_or_plot(line=-1):
@@ -155,7 +165,7 @@ def generate_save_or_plot(line=-1):
         sop, nos, val_type, func, object_list, times, use_name = ttu
         if func == "raster" and sop == "plot" and nos == "neuron":
             sub_raster(object_list, times)
-            rv = 2
+            return 2
         elif func == "raster":
             print("incorrect use of raster (must be plot and neuron), please consult manual")
         else:
@@ -175,7 +185,6 @@ def generate_save_or_plot(line=-1):
                     title = "" + func + " of " + nos + "s " + val_type + " for " + use_name
                     if sop == "plot":
                         simplify_plot(X, Y, X_unit, title)
-                        print("here")
                         return 2
                     elif sop == "save":
                         if nos == "neuron":

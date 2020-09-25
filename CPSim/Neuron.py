@@ -7,10 +7,6 @@ class Neuron:
         self.id = id_no
         self.param_dict = {
             "time_constant": 1.,
-            "resting_voltage": -70.,
-            "upper_threshold": -55.,
-            "lower_threshold": -65.,
-            "axon_length": 0,
             "refractory_voltage": 0,
             "sigmoid_slope": 0,
             "sigmoid_center": 0,
@@ -26,8 +22,7 @@ class Neuron:
 
     def update_starting_parameters(self, not_loaded):
         """called once, after all base parameters are set, to update other dependant values"""
-        if not_loaded:
-            self.voltage_history[0] = self.param_dict["resting_voltage"]
+        pass
 
     def update_voltage(self, step_number, timestep, artificial_stimulus):
         """
@@ -65,7 +60,6 @@ class NSNeuron:
         self.id = id_no
         self.param_dict = {
             "time_constant": 1.,
-            "resting_voltage": -70.,
         }
         self.pre = []
         self.post = []
@@ -78,7 +72,7 @@ class NSNeuron:
 
     def update_starting_parameters(self):
         """called once, after all base parameters are set, to update other dependant values"""
-        self.voltage_history[0] = self.param_dict["resting_voltage"]
+        pass
 
     def update_voltage(self, step_number, timestep, artificial_stimulus):
         """
@@ -94,7 +88,7 @@ class NSNeuron:
         """
         prev_step_number = step_number - 1
         prev_v = self.voltage_history[prev_step_number] if self.output_history[prev_step_number] == 0 else\
-            self.param_dict["resting_voltage"]
+            0
         v_ext = 0
         for p in self.pre:
             v_ext += p.get_input(step_number, timestep)
@@ -108,10 +102,6 @@ class CPNeuron:
         self.id = id_no
         self.param_dict = {
             "time_constant": 1.,
-            "resting_voltage": -70.,
-            "upper_threshold": -55.,
-            "lower_threshold": -65.,
-            "axon_length": 0,
             "refractory_voltage": 0,
             "sigmoid_slope": 0,
             "sigmoid_center": 0,
@@ -129,8 +119,7 @@ class CPNeuron:
 
     def update_starting_parameters(self, not_loaded):
         """called once, after all base parameters are set, to update other dependant values"""
-        if not_loaded:
-            self.voltage_history[0] = self.param_dict["resting_voltage"]
+        pass
 
     def update_voltage(self, step_number, timestep, artificial_stimulus):
         """
