@@ -16,8 +16,6 @@ class Synapse:
             "initial_weight": 1.,
             "weight_change": 0.0,
             "gmax": 1.,
-            "relevant_period": 0,
-            "decay": 0.05,
             "relevant_spike_no": 20,
             "sniff_cycle_period": 100
         }
@@ -52,9 +50,9 @@ class Synapse:
         :param timestep: the size of one timestep in ms
         :return: The effect this synapse will have on its post neuron
         """
-        key_g_sum = ("sum_g", step_number, self.pre.id, self.param_dict["relevant_spike_no"],
-                     self.param_dict["tau1"], self.param_dict["tau2"])
-        key_rsi = ("rsi", step_number, self.pre.id, self.param_dict["relevant_spike_no"])
+        key_g_sum = (step_number, ("sum_g", self.pre.id, self.param_dict["relevant_spike_no"],
+                     self.param_dict["tau1"], self.param_dict["tau2"]))
+        key_rsi = (step_number, ("rsi", self.pre.id, self.param_dict["relevant_spike_no"]))
         if Cache.cache.search(key_g_sum):
             sum_g = Cache.cache.get(key_g_sum)
         else:
@@ -74,7 +72,7 @@ class Synapse:
             Cache.cache.store(key_g_sum, sum_g)
 
         prev_v = self.post.voltage_history[step_number - 1] if self.post.output_history[step_number - 1] == 0 else \
-            self.post.param_dict["resting_voltage"]
+            0
 
         cur = self.weight_history[step_number - 1] * sum_g * (self.param_dict["E"] - prev_v)
         # if(self.post.id == 350):
@@ -90,8 +88,8 @@ class Synapse:
         :param step_number: the timestep number of this call of the function
         :param timestep: the size of one timestep in ms
         """
-        prev_w = ((self.weight_history[step_number - 1] - self.param_dict["initial_weight"]) *
-                  np.exp(-1 * timestep / self.param_dict["decay"])) + self.param_dict["initial_weight"]
+        prev_w = self.weight_history[step_number - 1]
+
         if self.param_dict["weight_change"] != 0.:
             tp = self.param_dict["sniff_cycle_period"]
             if step_number >= tp:
@@ -169,8 +167,8 @@ class NonfireSynapse:
         :param step_number: the timestep number of this call of the function
         :param timestep: the size of one timestep in ms
         """
-        prev_w = ((self.weight_history[step_number - 1] - self.param_dict["initial_weight"]) *
-                  np.exp(-1 * timestep / self.param_dict["decay"])) + self.param_dict["initial_weight"]
+        prev_w = self.weight_history[step_number - 1]
+
         if self.param_dict["weight_change"] != 0.:
             tp = self.param_dict["sniff_cycle_period"]
             if step_number >= tp:
@@ -198,11 +196,7 @@ class STDPSynapse:
             "tau2": 2.,
             "initial_weight": 1.,
             "weight_change": 0.0,
-            "gmax": 1.,
-            "relevant_period": 0,
-            "decay": 0.05,
             "relevant_spike_no": 20,
-            "sniff_cycle_period": 100,
             "STDP_slope": 20,
             "STDP_amplitude": 0.0001
         }
@@ -239,9 +233,9 @@ class STDPSynapse:
         :param timestep: the size of one timestep in ms
         :return: The effect this synapse will have on its post neuron
         """
-        key_g_sum = ("sum_g", step_number, self.pre.id, self.param_dict["relevant_spike_no"],
-                     self.param_dict["tau1"], self.param_dict["tau2"])
-        key_rsi = ("rsi", step_number, self.pre.id, self.param_dict["relevant_spike_no"])
+        key_g_sum = (step_number, ("sum_g", self.pre.id, self.param_dict["relevant_spike_no"],
+                     self.param_dict["tau1"], self.param_dict["tau2"]))
+        key_rsi = (step_number, ("rsi", self.pre.id, self.param_dict["relevant_spike_no"]))
         if Cache.cache.search(key_g_sum):
             sum_g = Cache.cache.get(key_g_sum)
         else:
@@ -261,7 +255,7 @@ class STDPSynapse:
             Cache.cache.store(key_g_sum, sum_g)
 
         prev_v = self.post.voltage_history[step_number - 1] if self.post.output_history[step_number - 1] == 0 else \
-            self.post.param_dict["resting_voltage"]
+            0
 
         cur = self.weight_history[step_number - 1] * sum_g * (self.param_dict["E"] - prev_v)
         # if(self.post.id == 350):
@@ -318,11 +312,7 @@ class SombreroSynapse:
             "tau2": 2.,
             "initial_weight": 1.,
             "weight_change": 0.0,
-            "gmax": 1.,
-            "relevant_period": 0,
-            "decay": 0.05,
             "relevant_spike_no": 20,
-            "sniff_cycle_period": 100,
             "exite_width": 1.5,
             "inhib_width": 4.0,
             "exite_magnitude": 1.0,
@@ -361,9 +351,9 @@ class SombreroSynapse:
         :param timestep: the size of one timestep in ms
         :return: The effect this synapse will have on its post neuron
         """
-        key_g_sum = ("sum_g", step_number, self.pre.id, self.param_dict["relevant_spike_no"],
-                     self.param_dict["tau1"], self.param_dict["tau2"])
-        key_rsi = ("rsi", step_number, self.pre.id, self.param_dict["relevant_spike_no"])
+        key_g_sum = (step_number, ("sum_g", self.pre.id, self.param_dict["relevant_spike_no"],
+                     self.param_dict["tau1"], self.param_dict["tau2"]))
+        key_rsi = (step_number, ("rsi", self.pre.id, self.param_dict["relevant_spike_no"]))
         if Cache.cache.search(key_g_sum):
             sum_g = Cache.cache.get(key_g_sum)
         else:
@@ -383,7 +373,7 @@ class SombreroSynapse:
             Cache.cache.store(key_g_sum, sum_g)
 
         prev_v = self.post.voltage_history[step_number - 1] if self.post.output_history[step_number - 1] == 0 else \
-            self.post.param_dict["resting_voltage"]
+            0
 
         cur = self.weight_history[step_number - 1] * sum_g * (self.param_dict["E"] - prev_v)
         # if(self.post.id == 350):

@@ -26,12 +26,12 @@ connect		   Pyr_to_Pyr hat {Pyr} {Pyr} 0.1
 
 Parameters:
 
-edit_neurons {OSN}    time_constant 1, resting_voltage 0, sigmoid_center 0.7, sigmoid_slope 0.15
-edit_neurons {Mitral} time_constant 2.6, resting_voltage 0, sigmoid_center 0.2, sigmoid_slope 0.02
-edit_neurons {PG}     time_constant 2, resting_voltage 0, sigmoid_center 1.5, sigmoid_slope 0.15
-edit_neurons {GC}     time_constant 2.2, resting_voltage 0, sigmoid_center 1.5, sigmoid_slope 0.02, refractory_voltage 0
-edit_neurons {ET}     time_constant 2, resting_voltage 0, sigmoid_center 2.5, sigmoid_slope 0.15
-edit_neurons {Pyr}    time_constant 3, resting_voltage 0, sigmoid_center 1.5, sigmoid_slope 0.15, calcium_inhibition_slope 1, calcium_inhibition_sample_t 50, refractory_voltage 0
+edit_neurons {OSN}    time_constant 1,   sigmoid_center 0.7, sigmoid_slope 0.15
+edit_neurons {Mitral} time_constant 2.6, sigmoid_center 0.2, sigmoid_slope 0.02
+edit_neurons {PG}     time_constant 2,   sigmoid_center 1.5, sigmoid_slope 0.15
+edit_neurons {GC}     time_constant 2.2, sigmoid_center 1.5, sigmoid_slope 0.02
+edit_neurons {ET}     time_constant 2,   sigmoid_center 2.5, sigmoid_slope 0.15
+edit_neurons {Pyr}    time_constant 3,   sigmoid_center 1.5, sigmoid_slope 0.15, calcium_inhibition_slope 1, calcium_inhibition_sample_t 50
 
 
 edit_connection OSN_to_PG initial_weight 0.0015, E 70, tau1 1, tau2 2
@@ -55,5 +55,4 @@ Output:
 plot neuron raster raster {:} {200:}
 plot neuron voltage raw {50, 150, 250, 350, 450, 550} {:}
 plot connection weight mean Pyr_to_Pyr {:}
-save neuron voltage psd {Mitral, GC} {:}
 end

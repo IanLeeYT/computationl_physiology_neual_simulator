@@ -122,7 +122,6 @@ def interpret_model_structure(file):
                 syn_type = "basicS"
             else:
                 syn_type = words[2]
-                print("dft", syn_type)
                 words[2:-1] = words[3:]
                 words = words[:-1]
             brace_string = "".join(words[2:])
@@ -166,7 +165,6 @@ def interpret_model_structure(file):
                 syn_type = "basicS"
             else:
                 syn_type = words[2]
-                print("dft", syn_type)
                 words[2:-1] = words[3:]
                 words = words[:-1]
             brace_string = "".join(words[2:])
@@ -210,7 +208,6 @@ def interpret_model_structure(file):
                 syn_type = "basicS"
             else:
                 syn_type = words[2]
-                print("dft", syn_type)
                 words[2:-1] = words[3:]
                 words = words[:-1]
             brace_string = "".join(words[2:])
@@ -397,8 +394,8 @@ def interpret_output_start(file):
     line = file.readline()
     line_no += 1
     while "\n" in line or line != "":
-        line = file.readline()
         predef_output_lines.append(line)
+        line = file.readline()
         line_no += 1
 
 
@@ -538,9 +535,9 @@ def get_filename():
 
 def get_save_selection(line=-1):
     if line == -1:
-        print("Format: <plot/save> neuron <keyword> <func> {<Neurons>} {<times>}")
-        print("or: <plot/save> synapse <keyword> <func> {<Neurons from>} {<Neurons to>} {<times>}")
-        print("or: <plot/save> connection <keyword> <func> <connection name> {<times>}")
+        print("Format: <plot/save> neuron <data_name> <func> {<Neurons>} {<times>}")
+        print("or: <plot/save> synapse <data_name> <func> {<Neurons from>} {<Neurons to>} {<times>}")
+        print("or: <plot/save> connection <data_name> <func> <connection name> {<times>}")
         sel = input("enter save or plot selection, or \"end\"\n")
     else:
         sel = line
@@ -561,7 +558,7 @@ def get_save_selection(line=-1):
 
         n_list = interpret_brace(brace1)
         neuron_list = [all_neurons[x] for x in n_list]
-        print([n.id for n in neuron_list])
+        # print([n.id for n in neuron_list])
         times = interpret_integer_brace(brace2)
 
         grp_name = brace_string1

@@ -3,9 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="cfc45111-8b2e-4453-b53a-96a93ed7c6a2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CPSim/Cache.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/Cache.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CPSim/Interpreter.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/Interpreter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CPSim/Neuron.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/Neuron.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CPSim/Synapse.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/Synapse.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CPSim/example5.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/example5.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CPSim/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CPSim/metadata.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,7 +162,14 @@
       <option name="project" value="LOCAL" />
       <updated>1600923947926</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="fixed a bug in psd plotting and saving. &#10;Allows user to build multiple excel files with the same name by appending an int">
+      <created>1600928190099</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1600928190099</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -172,49 +183,50 @@
     <MESSAGE value="Attempted to fix README.md titles" />
     <MESSAGE value="Added a cache for saving reused computation. &#10;Currently only used to recompute the sum_g value (or the rsi value) in Synapse._.get_input()&#10;Major performance improvement - depends on model structure, improvement is proportional to the square of how many synapses start at each neuron (on average)&#10;&#10;Added base saving" />
     <MESSAGE value="Added plotting and saving inputs in txt as well as after text" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added plotting and saving inputs in txt as well as after text" />
+    <MESSAGE value="fixed a bug in psd plotting and saving. &#10;Allows user to build multiple excel files with the same name by appending an int" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed a bug in psd plotting and saving. &#10;Allows user to build multiple excel files with the same name by appending an int" />
   </component>
   <component name="WindowStateProjectService">
     <state x="674" y="323" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1600917903233">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="674" y="323" key="#com.intellij.fileTypes.FileTypeChooser/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600917903233" />
-    <state x="512" y="114" key="CommitChangelistDialog2" timestamp="1600923946995">
+    <state x="512" y="114" key="CommitChangelistDialog2" timestamp="1600928189145">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="512" y="114" key="CommitChangelistDialog2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600923946995" />
+    <state x="512" y="114" key="CommitChangelistDialog2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600928189145" />
     <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1600927645326">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600927645326" />
-    <state width="1899" height="187" key="GridCell.Tab.0.bottom" timestamp="1600928070938">
+    <state width="1899" height="187" key="GridCell.Tab.0.bottom" timestamp="1601009365214">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="187" key="GridCell.Tab.0.bottom/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600928070938" />
-    <state width="1899" height="187" key="GridCell.Tab.0.center" timestamp="1600928070938">
+    <state width="1899" height="187" key="GridCell.Tab.0.bottom/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1601009365214" />
+    <state width="1899" height="187" key="GridCell.Tab.0.center" timestamp="1601009365214">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="187" key="GridCell.Tab.0.center/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600928070938" />
-    <state width="1899" height="187" key="GridCell.Tab.0.left" timestamp="1600928070938">
+    <state width="1899" height="187" key="GridCell.Tab.0.center/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1601009365214" />
+    <state width="1899" height="187" key="GridCell.Tab.0.left" timestamp="1601009365214">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="187" key="GridCell.Tab.0.left/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600928070938" />
-    <state width="1899" height="187" key="GridCell.Tab.0.right" timestamp="1600928070938">
+    <state width="1899" height="187" key="GridCell.Tab.0.left/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1601009365214" />
+    <state width="1899" height="187" key="GridCell.Tab.0.right" timestamp="1601009365214">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="187" key="GridCell.Tab.0.right/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600928070938" />
-    <state x="290" y="281" key="SettingsEditor" timestamp="1600928007664">
+    <state width="1899" height="187" key="GridCell.Tab.0.right/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1601009365214" />
+    <state x="290" y="281" key="SettingsEditor" timestamp="1600986343863">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="290" y="281" key="SettingsEditor/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600928007664" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1600923957115">
+    <state x="290" y="281" key="SettingsEditor/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600986343863" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1600928198409">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600923957115" />
-    <state x="685" y="311" key="git4idea.merge.GitPullDialog" timestamp="1600901523135">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600928198409" />
+    <state x="685" y="311" key="git4idea.merge.GitPullDialog" timestamp="1600985397964">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="685" y="311" key="git4idea.merge.GitPullDialog/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600901523135" />
+    <state x="685" y="311" key="git4idea.merge.GitPullDialog/-1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1600985397964" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1600911812875">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
