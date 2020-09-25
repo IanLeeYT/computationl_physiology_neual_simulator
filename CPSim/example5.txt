@@ -52,8 +52,8 @@ sniff {OSN} {50:450} 1. 8 50 20
 
 Output:
 
-#plot neuron raster raster {:} {200:}
-#plot neuron voltage raw {50, 150, 250, 350, 450, 550} {:}
-#plot connection weight mean Pyr_to_Pyr {:}
+plot neuron raster raster {:} {200:}
+plot neuron voltage raw {50, 150, 250, 350, 450, 550} {:}
+plot connection weight mean Pyr_to_Pyr {:}
 save neuron voltage psd {Mitral, GC} {:}
 end
