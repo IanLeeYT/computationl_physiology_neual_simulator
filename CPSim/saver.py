@@ -21,6 +21,9 @@ def save(in_vars):
     file.write("Simulator_setup:\n")
     file.write("timestep "+str(timestep)+"\n")
     file.write("final_timestep "+str(final_timestep)+"\n")
+    file.write("load_directory "+str(save_dir)+"\n")
+    file.write("keep_loaded_data 1\n")
+    file.write("\n")
     file.write("Model_structure:\n")
 
     for group_name in group_names:
@@ -99,6 +102,7 @@ def load_data(in_vars):
         output = data["output"]
         weights = data["weights"]
 
+        print(keep_load, )
         if keep_load:
             final_timestep += voltage.shape[-1]
             starting = voltage.shape[-1]
@@ -114,6 +118,7 @@ def load_data(in_vars):
                 syn.weight_history = np.zeros(final_timestep)
                 syn.weight_history[:starting] = np.copy(weights[i])
                 i += 1
+            print(starting, final_timestep)
             return starting, final_timestep
         else:
             i = 0

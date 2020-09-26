@@ -10,7 +10,7 @@ class Synapse:
         self.pre.post.append(self)
         self.post.pre.append(self)
         self.param_dict = {
-            "E": -70.,
+            "E": 70.,
             "tau1": 1.,
             "tau2": 2.,
             "initial_weight": 1.,
@@ -116,9 +116,6 @@ class NonfireSynapse:
             "s_sigmoid_slope": 1.,
             "s_sigmoid_center": 0.,
             "initial_weight": 1.,
-            "weight_change": 0.0,
-            "decay": 0.05,
-            "sniff_cycle_period": 100
         }
         self.weight_history = np.zeros(final_timestep)
         self.printable_dict = {
@@ -168,20 +165,7 @@ class NonfireSynapse:
         :param timestep: the size of one timestep in ms
         """
         prev_w = self.weight_history[step_number - 1]
-
-        if self.param_dict["weight_change"] != 0.:
-            tp = self.param_dict["sniff_cycle_period"]
-            if step_number >= tp:
-                st = ((step_number - tp) // tp) * tp
-                nd = min(st + tp, len(self.weight_history))
-                x1 = np.sum(self.pre.output_history[st: nd])
-                x2 = np.sum(self.post.output_history[st: nd])
-            else:
-                x2 = x1 = 0
-            del_w = self.param_dict["weight_change"] * x1 * x2
-            self.weight_history[step_number] = prev_w + del_w
-        else:
-            self.weight_history[step_number] = prev_w
+        self.weight_history[step_number] = prev_w
 
 
 class STDPSynapse:
@@ -191,7 +175,7 @@ class STDPSynapse:
         self.pre.post.append(self)
         self.post.pre.append(self)
         self.param_dict = {
-            "E": -70.,
+            "E": 70.,
             "tau1": 1.,
             "tau2": 2.,
             "initial_weight": 1.,

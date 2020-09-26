@@ -247,7 +247,7 @@ if __name__ == "__main__":
 
     # make save
     saver.save(vals)
-
+    print("he", all_neurons[0].voltage_history.shape)
     # make predefined data plots or saves
     not_first_plot = False
     print(Interpreter.predef_output_lines)
