@@ -4,7 +4,7 @@ CPSim is a program designed to simulate the nervous system, for the Computationa
 You can find all the instructions on how to use CPSim on the [CPSim Wiki](https://github.com/KyrusMama/CPSim/wiki). \
 This includes python installation, how to run the code, as well as how to build models.
 
-To download the code, click on the green button that says "Code" on this page, and choose to download the code as a zip.\
+To download the code, click on the green button that says "Code" on this page, and choose to download the code as a zip.
 
 If you have any questions, think you've found any bugs, or have any other concerns, please email me (Kyrus) and Ian, and whichever of us sees  the email first will get back to you!
 
