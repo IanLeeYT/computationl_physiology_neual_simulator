@@ -3,9 +3,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 import saver
-import threading
-import xlsxwriter as xw
+
 import os
+import scipy.stats as stts
+import sys
+
+if sys.version_info >= (3, 0):
+    python_verion_3 = True
+    import xlsxwriter as xw
+else:
+    python_verion_3 = False
+    import pandas as pd
+    import csv
+
+if python_verion_3:
+    print("python version 3")
+else:
+    print("python version 2")
 
 n_plots = 0
 
@@ -55,50 +69,93 @@ def plt_subspec(val_lst, times, use_name):
     plt.tight_layout(pad=1.5)
 
 
-def save_data_file(X, Y, X_unit, name, nos, keyword, func, use_name, ids=None):
-    """
-    neuron: list of neuron types desired
-    indices: tuple/list of tuples that indicates the starting and ending neurons
-    times: tuple of start and end times of recording
+if python_verion_3:
+    def save_data_file3(X, Y, X_unit, name, nos, keyword, func, use_name, ids=None):
+        """
+        neuron: list of neuron types desired
+        indices: tuple/list of tuples that indicates the starting and ending neurons
+        times: tuple of start and end times of recording
 
-    writes data into an excel file
-    """
+        writes data into an excel file
+        """
 
-    save_xlsx_file_name = name
-    og, cc = save_xlsx_file_name, 1
-    while os.path.isfile(save_xlsx_file_name + '.xlsx'):
-        save_xlsx_file_name = og + str(cc)
-        cc += 1
-    save_xlsx_file_name = save_xlsx_file_name + '.xlsx'
-    workbook = xw.Workbook(save_xlsx_file_name)
-    worksheet = workbook.add_worksheet()
+        save_xlsx_file_name = name
+        og, cc = save_xlsx_file_name, 1
+        while os.path.isfile(save_xlsx_file_name + '.xlsx'):
+            save_xlsx_file_name = og + str(cc)
+            cc += 1
+        save_xlsx_file_name = save_xlsx_file_name + '.xlsx'
+        workbook = xw.Workbook(save_xlsx_file_name)
+        worksheet = workbook.add_worksheet()
 
-    row_number, col_number = 0, 0
-    title = "The following data is "+func+" of "+keyword+" from "+nos+"s "+use_name
-    comment1 = "Row headers are "+nos+" and their indices."
-    comment2 = "Column headers are "+X_unit
-    worksheet.write(row_number, col_number, title)
-    row_number += 1
-    worksheet.write(row_number, col_number, comment1)
-    row_number += 1
-    worksheet.write(row_number, col_number, comment2)
-
-    row_number, col_number = 4, 1
-    for xi in range(len(X)):
-        worksheet.write(row_number, col_number, X[xi])
-        col_number += 1
-
-    row_number, col_number = 5, 0
-    for i in range(len(Y)):
-        if ids is not None and len(ids) == len(Y):
-            worksheet.write(row_number, col_number, str(ids[i]))
-        for t in range(len(X)):
-            col_number += 1
-            worksheet.write(row_number, col_number, Y[i][t])
-        col_number = 0
+        row_number, col_number = 0, 0
+        title = "The following data is "+func+" of "+keyword+" from "+nos+"s "+use_name
+        comment1 = "Row headers are "+nos+" and their indices."
+        comment2 = "Column headers are "+X_unit
+        worksheet.write(row_number, col_number, title)
         row_number += 1
-    workbook.close()
-    print("excel file saved")
+        worksheet.write(row_number, col_number, comment1)
+        row_number += 1
+        worksheet.write(row_number, col_number, comment2)
+
+        row_number, col_number = 4, 1
+        for xi in range(len(X)):
+            worksheet.write(row_number, col_number, X[xi])
+            col_number += 1
+
+        row_number, col_number = 5, 0
+        for i in range(len(Y)):
+            if ids is not None and len(ids) == len(Y):
+                worksheet.write(row_number, col_number, str(ids[i]))
+            for t in range(len(X)):
+                col_number += 1
+                worksheet.write(row_number, col_number, Y[i][t])
+            col_number = 0
+            row_number += 1
+        workbook.close()
+        print("excel file saved")
+
+    save_data_file = save_data_file3
+
+else:
+    def save_data_file2(X, Y, X_unit, name, nos, keyword, func, use_name, ids=None):
+        docName = func + "_" + nos + "_" + keyword + "_" + use_name
+
+        # Save Neuron List as Text
+        Ymod = [None] * len(Y)
+        docNameTxt = "NeuronLists_" + docName + ".txt"
+        for i in range(len(Y)):
+            Ymod[i] = nos + str(ids[i]) + "=" + str(Y[i])
+        with open(docNameTxt, 'w+') as fileHandle:
+            for y in Ymod:
+                fileHandle.write('%s\n' % y)
+        with open(docNameTxt, "a") as myfile:
+            myfile.write("\n" + nos + " values for time over " + str(len(X)) + X_unit + ".")
+
+        # Save text file by time
+        docNameTime = "TimeSeparated_" + docName + ".csv"
+        new_list = zip(Y, X)
+        with open(docNameTime, 'w+') as csvfile:
+            filewriter = csv.writer(csvfile)
+            filewriter.writerows(new_list)
+
+        # Save as Dataframe
+        secondsVals = []
+        nosList = []
+
+        csvDocName = "CSV_" + docName + ".csv"
+        xu = 0
+        yu = 0
+        while xu < len(X):
+            secondsVals.append(str(xu) + X_unit)
+            xu += 1
+        while yu < len(Y):
+            nosList.append(nos + "" + str(yu))
+            yu += 1
+        df = pd.DataFrame(Y, columns=secondsVals, index=nosList)
+        df.to_csv(csvDocName)
+
+    save_data_file = save_data_file2
 
 
 def apply_func(app_func, value_list, times):
@@ -200,6 +257,55 @@ def generate_save_or_plot(line=-1):
     return rv
 
 
+def significance(neu, t1, t2, t3, t4):
+    n1 = t2-t1
+    n2 = t4-t3
+    accu1 = np.zeros((len(neuron_dict[neu]),n1))
+    accu2 = np.zeros((len(neuron_dict[neu]),n2))
+    for i in range(len(neuron_dict[neu])):
+        accu1[i,:] = neuron_dict[neu][i].output_history[t1:t2]
+        accu2[i,:] = neuron_dict[neu][i].output_history[t3:t4]
+    stat, p = stts.ttest_rel(accu1.flatten(), accu2.flatten())
+    print("sample 1 mean: " + str(accu1.flatten().mean()) + " standard deviation: " +
+          str(round(accu1.flatten().std(),5)))
+    print("sample 2 mean: " + str(accu2.flatten().mean()) + " standard deviation: " +
+          str(round(accu2.flatten().std(),5)))
+    print("stat: " + str(round(stat,3)) + " p-value: " + str(round(p,5)))
+
+
+def plot_difference(neu, t1, t2, t3, t4):
+    assert t2-t1 == t4-t3
+    n = t4-t3
+    accu1 = np.zeros(len(neuron_dict[neu]))
+    accu2 = np.zeros(len(neuron_dict[neu]))
+    for i in range(len(neuron_dict[neu])):
+        accu1[i] = neuron_dict[neu][i].output_history[t1:t2].sum()
+        accu2[i] = neuron_dict[neu][i].output_history[t3:t4].sum()
+    diff = accu2-accu1
+    #stats
+    print("Mean of differences: " + str(round(diff.mean(),4)))
+    print("Standard deviation of differences: " + str(round(diff.std(),4)))
+    #scatter plot distribution
+    fig, axs = plt.subplots(1, 1)
+    axs.plot(np.arange(len(accu1)),accu1,label="firings from " + str(t1) + " to " + str(t2))
+    axs.plot(np.arange(len(accu1)),accu2,label="firings from " + str(t3) + " to " + str(t4))
+    plt.xlabel("neuron number")
+    plt.ylabel("count")
+    plt.legend()
+    #histograms
+    fig, axs = plt.subplots(2, 1)
+    axs[0].hist(diff,label="differences in firings (count)")
+    axs[1].plot(np.arange(len(accu1)),diff,label="differences in firings")
+    fig.legend()
+    #accending
+    diff.sort()
+    fig, axs = plt.subplots(1, 1)
+    axs.plot(np.arange(len(accu1)),diff,label="differences in firings in ascending order")
+    plt.ylabel("count")
+    plt.legend()
+    plt.show()
+
+
 if __name__ == "__main__":
     seed = 2
     pn = 3
@@ -273,3 +379,25 @@ if __name__ == "__main__":
             print("You must close the plot to continue to use user inputs")
             plt.show()
 
+    stats = 1
+    print("Test for statistics in Voltage and Firing Rate")
+    while stats:
+        try:
+            sinp = Interpreter.input_fun("type (difference) or (end): ")
+            if sinp == "end":
+                break
+            if sinp != "difference" and sinp != "firing":
+                raise Exception()
+            neu = Interpreter.input_fun("neuron type: ")
+            t1 = int(Interpreter.input_fun("start time for first sample: "))
+            t2 = int(Interpreter.input_fun("end time for first sample: "))
+            t3 = int(Interpreter.input_fun("start time for second sample: "))
+            t4 = int(Interpreter.input_fun("end time for second sample: "))
+            if sinp == "firing":
+                significance(neu,t1,t2,t3,t4)
+            else:
+                plot_difference(neu,t1,t2,t3,t4)
+        except:
+            print("invalid input")
+
+    print("Thank you")

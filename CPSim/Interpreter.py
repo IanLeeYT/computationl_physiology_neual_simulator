@@ -5,6 +5,11 @@ import random
 import sys
 import os
 
+if sys.version_info >= (3, 0):
+    input_fun = input
+else:
+    input_fun = raw_input  # ignore Unresolved reference issue
+
 line_no = 0
 start_model = "Model_structure"
 start_params = "Parameters"
@@ -504,16 +509,16 @@ def get_filename():
         else:
             fn = d[0]
             if os.path.exists(fn):
-                use = input(("Should the last used model from "+str(fn)+" be loaded? y/n:\n"))
+                use = input_fun(("Should the last used model from "+str(fn)+" be loaded? y/n:\n"))
                 while use not in ye and use not in no:
-                    use = input(("INVALID INPUT: Should the model from " + str(fn) + " be loaded? y/n:\n"))
+                    use = input_fun(("INVALID INPUT: Should the model from " + str(fn) + " be loaded? y/n:\n"))
                 if use in ye:
                     return fn
                 elif use in no:
-                    fn = input("Enter new file name/path:\n")
+                    fn = input_fun("Enter new file name/path:\n")
                     while not os.path.exists(fn):
                         print("The file or path entered does not exist")
-                        fn = input("INVALID INPUT: Enter new file name/path:\n")
+                        fn = input_fun("INVALID INPUT: Enter new file name/path:\n")
                     md = open(meta_data, "w")
                     md.write(fn)
                     md.close()
@@ -523,10 +528,10 @@ def get_filename():
             else:
                 raise Exception("Old file name does not exist. Please edit or delete \"metadata.txt\".")
     else:
-        fn = input("Enter new file name/path:\n")
+        fn = input_fun("Enter new file name/path:\n")
         while not os.path.exists(fn):
             print("The file or path entered does not exist")
-            fn = input("INVALID INPUT: Enter new file name/path:\n")
+            fn = input_fun("INVALID INPUT: Enter new file name/path:\n")
         md = open(meta_data, "w")
         md.write(fn)
         md.close()
@@ -538,7 +543,7 @@ def get_save_selection(line=-1):
         print("Format: <plot/save> neuron <data_name> <func> {<Neurons>} {<times>}")
         print("or: <plot/save> synapse <data_name> <func> {<Neurons from>} {<Neurons to>} {<times>}")
         print("or: <plot/save> connection <data_name> <func> <connection name> {<times>}")
-        sel = input("enter save or plot selection, or \"end\"\n")
+        sel = input_fun("enter save or plot selection, or \"end\"\n")
     else:
         sel = line
     sp = sel.split()
