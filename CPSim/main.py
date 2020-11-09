@@ -166,6 +166,12 @@ def apply_func(app_func, value_list, times):
         value_arr = np.concatenate(value_list, axis=1)
         value_arr = np.mean(value_arr, axis=1)
         return times, [value_arr], "ms"
+    elif app_func == "mean_over_time":
+        value_list = [np.expand_dims(values_in, 1) for values_in in [values_in[times] for values_in in value_list]]
+        value_arr = np.concatenate(value_list, axis=1)
+        value_arr = value_arr.transpose()
+        value_arr = np.mean(value_arr, axis=1)
+        return np.arange(value_arr.shape[0]), [value_arr], "neuron number"
     elif app_func == "psd":
         value_list = [np.expand_dims(values_in, 1) for values_in in [values_in[times] for values_in in value_list]]
         value_arr = np.concatenate(value_list, axis=1)
@@ -187,10 +193,28 @@ def apply_func(app_func, value_list, times):
         return omega[:nd], [ff[:nd]], "Hz"
 
 
-def simplify_plot(X, Y, X_unit, name):
+def simplify_plot(X, Y, X_unit, name, overlay=None):
     rows = int(np.sqrt(len(Y)))
     cols = int(np.ceil(len(Y)/rows))
     f, ax = plt.subplots(rows, cols, sharex='all', sharey='all')
+    if overlay is not None:
+        count = 0
+        X2, Y2, U2 = overlay
+        for r in range(rows):
+            for c in range(cols):
+                if count >= len(Y):
+                    break
+                if rows * cols == 1:
+                    for xv in range(len(X2)):
+                        if Y2[count][xv] == 1:
+                            ax.axvline(X2[xv], color="pink")
+                else:
+                    for xv in range(len(X2)):
+                        if Y2[count][xv] == 1:
+                            ax[r, c].axvline(X2[xv], color="pink")
+                count += 1
+            if count >= len(Y):
+                break
     count = 0
     for r in range(rows):
         for c in range(cols):
@@ -204,7 +228,6 @@ def simplify_plot(X, Y, X_unit, name):
         if count >= len(Y):
             break
     plt.suptitle(name+" with x-axis unit="+X_unit)
-
 
 
 def generate_save_or_plot(line=-1):
@@ -241,7 +264,12 @@ def generate_save_or_plot(line=-1):
                     X, Y, X_unit = rt
                     title = "" + func + " of " + nos + "s " + val_type + " for " + use_name
                     if sop == "plot":
-                        simplify_plot(X, Y, X_unit, title)
+                        if val_type == "voltage" and func == "raw":
+                            val_lst_overlay = [x.printable_dict["output"] for x in object_list]
+
+                            simplify_plot(X, Y, X_unit, title, overlay=apply_func("raw", val_lst_overlay, times))
+                        else:
+                            simplify_plot(X, Y, X_unit, title)
                         return 2
                     elif sop == "save":
                         if nos == "neuron":

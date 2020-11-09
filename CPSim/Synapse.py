@@ -67,7 +67,6 @@ class Synapse:
                 Cache.cache.store(key_rsi, rsi)
 
             g = self.g_max * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"]))
-            # g = np.abs(1 * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"])))
             sum_g = np.sum(g)
             Cache.cache.store(key_g_sum, sum_g)
 
@@ -75,8 +74,6 @@ class Synapse:
             0
 
         cur = self.weight_history[step_number - 1] * sum_g * (self.param_dict["E"] - prev_v)
-        # if(self.post.id == 350):
-        #     print(g, cur)
 
         return cur
 
@@ -100,7 +97,7 @@ class Synapse:
             else:
                 x2 = x1 = 0
             del_w = self.param_dict["weight_change"] * x1 * x2
-            self.weight_history[step_number] = prev_w + del_w
+            self.weight_history[step_number] = max(prev_w + del_w, 0.)
         else:
             self.weight_history[step_number] = prev_w
 
@@ -182,12 +179,15 @@ class STDPSynapse:
             "weight_change": 0.0,
             "relevant_spike_no": 20,
             "STDP_slope": 20,
-            "STDP_amplitude": 0.0001
+            "STDP_amplitude": 0.0001,
+            "update_interval": 1,
+            "max_weight": 10.,
         }
         self.weight_history = np.zeros(final_timestep)
         self.g_max = 1
         self.pre_firing_t = np.NINF
         self.post_firing_t = np.NINF
+        self.STDP_additive_weight_change = 0
         self.printable_dict = {
             "weight": self.weight_history,
         }
@@ -234,7 +234,6 @@ class STDPSynapse:
                 Cache.cache.store(key_rsi, rsi)
 
             g = self.g_max * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"]))
-            # g = np.abs(1 * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"])))
             sum_g = np.sum(g)
             Cache.cache.store(key_g_sum, sum_g)
 
@@ -242,8 +241,6 @@ class STDPSynapse:
             0
 
         cur = self.weight_history[step_number - 1] * sum_g * (self.param_dict["E"] - prev_v)
-        # if(self.post.id == 350):
-        #     print(g, cur)
 
         return cur
 
@@ -255,10 +252,14 @@ class STDPSynapse:
         :param step_number: the timestep number of this call of the function
         :param timestep: the size of one timestep in ms
         """
-        # prev_w = ((self.weight_history[step_number - 1] - self.param_dict["initial_weight"]) *
-        #          np.exp(-1 * timestep / self.param_dict["decay"])) + self.param_dict["initial_weight"]
         prev_w = self.weight_history[step_number - 1]
-        self.weight_history[step_number] = prev_w + self.STDP_value(step_number)
+        self.STDP_additive_weight_change += self.STDP_value(step_number)
+        if (step_number % self.param_dict["update_interval"]) == 0:
+            self.weight_history[step_number] = \
+                min(max(prev_w + self.STDP_additive_weight_change, 0.), self.param_dict["max_weight"])
+            self.STDP_additive_weight_change = 0
+        else:
+            self.weight_history[step_number] = prev_w
 
     def STDP_value(self, step_number):
         if self.pre.output_history[step_number] or self.post.output_history[step_number]:
@@ -300,12 +301,16 @@ class SombreroSynapse:
             "exite_width": 1.5,
             "inhib_width": 4.0,
             "exite_magnitude": 1.0,
-            "inhib_magnitude": 1.0
+            "inhib_magnitude": 1.0,
+            "update_interval": 1,
+            "max_weight": 10.
         }
         self.weight_history = np.zeros(final_timestep)
         self.g_max = 1
         self.pre_firing_t = np.NINF
         self.post_firing_t = np.NINF
+        self.Som_additive_weight_change = 0
+
         self.printable_dict = {
             "weight": self.weight_history,
         }
@@ -314,8 +319,10 @@ class SombreroSynapse:
         return "" + str(self.pre.id) + " " + str(self.post.id)
 
     def update_starting_parameters(self, not_loaded):
+        self.param_dict["initial_weight"] = np.abs(self.param_dict["initial_weight"])
         if not_loaded:
             self.weight_history[0] = self.param_dict["initial_weight"]
+
         t1 = self.param_dict["tau1"]
         t2 = self.param_dict["tau2"]
         if t1 == t2:
@@ -352,7 +359,6 @@ class SombreroSynapse:
                 Cache.cache.store(key_rsi, rsi)
 
             g = self.g_max * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"]))
-            # g = np.abs(1 * (np.exp(rsi / self.param_dict["tau1"]) - np.exp(rsi / self.param_dict["tau2"])))
             sum_g = np.sum(g)
             Cache.cache.store(key_g_sum, sum_g)
 
@@ -360,8 +366,6 @@ class SombreroSynapse:
             0
 
         cur = self.weight_history[step_number - 1] * sum_g * (self.param_dict["E"] - prev_v)
-        # if(self.post.id == 350):
-        #     print(g, cur)
 
         return cur
 
@@ -381,8 +385,7 @@ class SombreroSynapse:
                 inhib = self.param_dict["inhib_magnitude"] *\
                     np.exp(-1 * t * t / (2 * self.param_dict["inhib_width"] * self.param_dict["inhib_width"]))
                 change = ex - inhib
-                # if change != 0:
-                #     print("Som", t, change)
+
                 return self.param_dict["weight_change"] * change
         return 0
 
@@ -395,10 +398,15 @@ class SombreroSynapse:
         :param step_number: the timestep number of this call of the function
         :param timestep: the size of one timestep in ms
         """
-        #prev_w = ((self.weight_history[step_number - 1] - self.param_dict["initial_weight"]) *
-        #          np.exp(-1 * timestep / self.param_dict["decay"])) + self.param_dict["initial_weight"]
+
         prev_w = self.weight_history[step_number - 1]
-        self.weight_history[step_number] = prev_w + self.Sombrero_value(step_number)
+        self.Som_additive_weight_change += self.Sombrero_value(step_number)
+        if (step_number % self.param_dict["update_interval"]) == 0:
+            self.weight_history[step_number] = \
+                min(max(prev_w + self.Som_additive_weight_change, 0.), self.param_dict["max_weight"])
+            self.Som_additive_weight_change = 0
+        else:
+            self.weight_history[step_number] = prev_w
 
 
 synapse_names = {
