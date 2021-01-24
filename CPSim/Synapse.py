@@ -270,8 +270,13 @@ class STDPSynapse:
 
             if self.post_firing_t != np.NINF and self.pre_firing_t != np.NINF:
                 t = self.pre_firing_t - self.post_firing_t
-                self.post_firing_t = np.NINF
-                self.pre_firing_t = np.NINF
+                if self.post_firing_t < self.pre_firing_t:
+                    self.post_firing_t = np.NINF
+                elif self.post_firing_t > self.pre_firing_t:
+                    self.pre_firing_t = np.NINF
+                else:
+                    self.post_firing_t = np.NINF
+                    self.pre_firing_t = np.NINF
                 if t < 0:
                     return self.strengthen_STDP(t)
                 elif t > 0:
@@ -364,7 +369,6 @@ class SombreroSynapse:
 
         prev_v = self.post.voltage_history[step_number - 1] if self.post.output_history[step_number - 1] == 0 else \
             0
-
         cur = self.weight_history[step_number - 1] * sum_g * (self.param_dict["E"] - prev_v)
 
         return cur
@@ -378,8 +382,13 @@ class SombreroSynapse:
 
             if self.post_firing_t != np.NINF and self.pre_firing_t != np.NINF:
                 t = self.pre_firing_t - self.post_firing_t
-                self.post_firing_t = np.NINF
-                self.pre_firing_t = np.NINF
+                if self.post_firing_t < self.pre_firing_t:
+                    self.post_firing_t = np.NINF
+                elif self.post_firing_t > self.pre_firing_t:
+                    self.pre_firing_t = np.NINF
+                else:
+                    self.post_firing_t = np.NINF
+                    self.pre_firing_t = np.NINF
                 ex = (self.param_dict["exite_magnitude"] + self.param_dict["inhib_magnitude"]) *\
                     np.exp(-1 * t * t / (2 * self.param_dict["exite_width"] * self.param_dict["exite_width"]))
                 inhib = self.param_dict["inhib_magnitude"] *\

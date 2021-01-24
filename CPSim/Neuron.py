@@ -45,6 +45,7 @@ class Neuron:
             v_ext += p.get_input(step_number, timestep)
         exponent = np.exp(-1 * timestep / self.param_dict["time_constant"])
         self.voltage_history[step_number] = exponent * prev_v + (1 - exponent) * v_ext + artificial_stimulus
+
         p_val = np.random.random()
         comp = self.param_dict["sigmoid_slope"]
         if comp != 0:

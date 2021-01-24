@@ -172,6 +172,12 @@ def apply_func(app_func, value_list, times):
         value_arr = value_arr.transpose()
         value_arr = np.mean(value_arr, axis=1)
         return np.arange(value_arr.shape[0]), [value_arr], "neuron number"
+    elif app_func == "sum_over_time":
+        value_list = [np.expand_dims(values_in, 1) for values_in in [values_in[times] for values_in in value_list]]
+        value_arr = np.concatenate(value_list, axis=1)
+        value_arr = value_arr.transpose()
+        value_arr = np.sum(value_arr, axis=1)
+        return np.arange(value_arr.shape[0]), [value_arr], "neuron number"
     elif app_func == "psd":
         value_list = [np.expand_dims(values_in, 1) for values_in in [values_in[times] for values_in in value_list]]
         value_arr = np.concatenate(value_list, axis=1)
@@ -209,6 +215,8 @@ def simplify_plot(X, Y, X_unit, name, overlay=None):
                         if Y2[count][xv] == 1:
                             ax.axvline(X2[xv], color="pink")
                 else:
+                    if len(ax.shape) < 2:
+                        ax = np.expand_dims(ax, axis=0)
                     for xv in range(len(X2)):
                         if Y2[count][xv] == 1:
                             ax[r, c].axvline(X2[xv], color="pink")
@@ -218,6 +226,8 @@ def simplify_plot(X, Y, X_unit, name, overlay=None):
     count = 0
     for r in range(rows):
         for c in range(cols):
+            if rows * cols != 1 and len(ax.shape) < 2:
+                ax = np.expand_dims(ax, axis=0)
             if count >= len(Y):
                 break
             if rows*cols == 1:

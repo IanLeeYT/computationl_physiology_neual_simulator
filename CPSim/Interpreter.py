@@ -164,6 +164,47 @@ def interpret_model_structure(file):
                 connection_dict[connection_name] = connections
                 connection_names.append(connection_name)
 
+        elif words[0] == "connect_with_reps":
+            connection_name = words[1]
+            if "{" in words[2]:
+                syn_type = "basicS"
+            else:
+                syn_type = words[2]
+                words[2:-1] = words[3:]
+                words = words[:-1]
+            brace_string = "".join(words[2:])
+            brace_string1 = brace_string.split("}")[0]
+            brace_string1 = brace_string1.split("{")[1]
+            brace_string2 = brace_string.split("}")[1]
+            brace_string2 = brace_string2.split("{")[1]
+
+            brace1 = brace_string1.split(",")
+            brace2 = brace_string2.split(",")
+
+            lst1 = interpret_brace(brace1)
+            lst2 = interpret_brace(brace2)
+
+            probstr = brace_string.split("}")[2]
+            if probstr == "":
+                prob = 1
+            else:
+                prob = float(probstr)
+
+            connections = []
+            for f in lst1:
+                for t in lst2:
+                    if random.random() <= prob:
+                        connections.append(Synapse.synapse_names[syn_type]
+                                           (all_neurons[f], all_neurons[t], final_timestep))
+            connection_name_class[connection_name] = Synapse.synapse_names[syn_type]
+
+            all_connections.extend(connections)
+            if connection_name in list(connection_names):
+                connection_dict[connection_name].extend(connections)
+            else:
+                connection_dict[connection_name] = connections
+                connection_names.append(connection_name)
+
         elif words[0] == "connect_focus":
             connection_name = words[1]
             if "{" in words[2]:

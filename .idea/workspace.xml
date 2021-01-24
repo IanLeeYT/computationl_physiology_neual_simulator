@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="cfc45111-8b2e-4453-b53a-96a93ed7c6a2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CPSim/Interpreter.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/Interpreter.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CPSim/Neuron.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/Neuron.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CPSim/Synapse.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/Synapse.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CPSim/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/CPSim/main.py" afterDir="false" />
@@ -15,7 +16,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/CPSim$main.coverage" NAME="main Coverage Results" MODIFIED="1604902682750" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/CPSim" />
+    <SUITE FILE_PATH="coverage/CPSim$main.coverage" NAME="main Coverage Results" MODIFIED="1606125853944" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/CPSim" />
     <SUITE FILE_PATH="coverage/CPSim$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1602541215241" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads/CPSim-master/CPSim" />
   </component>
   <component name="FileEditorManager">
@@ -23,8 +24,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CPSim/kmodel.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="689">
-              <caret line="63" column="80" selection-start-line="63" selection-start-column="80" selection-end-line="63" selection-end-column="80" />
+            <state relative-caret-position="382">
+              <caret line="62" column="119" selection-start-line="62" selection-start-column="119" selection-end-line="62" selection-end-column="119" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CPSim/TPL2.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="570">
+              <caret line="38" selection-start-line="38" selection-end-line="38" />
             </state>
           </provider>
         </entry>
@@ -32,8 +42,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CPSim/Interpreter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="82">
-              <caret line="527" selection-start-line="510" selection-end-line="527" />
+            <state relative-caret-position="2535">
+              <caret line="174" column="45" selection-start-line="174" selection-start-column="45" selection-end-line="174" selection-end-column="45" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -44,8 +54,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CPSim/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="356">
-              <caret line="230" lean-forward="true" selection-start-line="230" selection-end-line="230" />
+            <state relative-caret-position="475">
+              <caret line="180" column="27" lean-forward="true" selection-start-line="180" selection-start-column="27" selection-end-line="180" selection-end-column="27" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -56,8 +66,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CPSim/Neuron.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="753">
-              <caret line="194" column="54" lean-forward="true" selection-start-line="194" selection-start-column="54" selection-end-line="194" selection-end-column="54" />
+            <state relative-caret-position="4260">
+              <caret line="285" column="22" selection-start-line="285" selection-start-column="5" selection-end-line="285" selection-end-column="22" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -68,8 +78,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CPSim/Synapse.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2852">
-              <caret line="305" column="28" selection-start-line="305" selection-start-column="28" selection-end-line="305" selection-end-column="28" />
+            <state relative-caret-position="5895">
+              <caret line="395" column="35" selection-start-line="395" selection-start-column="35" selection-end-line="395" selection-end-column="35" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -112,13 +122,15 @@
         <option value="$PROJECT_DIR$/CPSim/auditory1.txt" />
         <option value="$PROJECT_DIR$/CPSim/auditory2.txt" />
         <option value="$PROJECT_DIR$/CPSim/example6.txt" />
-        <option value="$PROJECT_DIR$/CPSim/metadata.txt" />
-        <option value="$PROJECT_DIR$/CPSim/Interpreter.py" />
         <option value="$USER_HOME$/Library/Containers/com.apple.mail/Data/Library/Mail Downloads/C554AC7C-2070-4091-A66C-ACF7359E9658/Synapse.py" />
+        <option value="$PROJECT_DIR$/CPSim/metadata.txt" />
         <option value="$PROJECT_DIR$/CPSim/Neuron.py" />
-        <option value="$PROJECT_DIR$/CPSim/main.py" />
+        <option value="$PROJECT_DIR$/CPSim/Interpreter.py" />
+        <option value="$PROJECT_DIR$/CPSim/TPL.txt" />
         <option value="$PROJECT_DIR$/CPSim/Synapse.py" />
+        <option value="$PROJECT_DIR$/CPSim/TPL2.txt" />
         <option value="$PROJECT_DIR$/CPSim/kmodel.txt" />
+        <option value="$PROJECT_DIR$/CPSim/main.py" />
       </list>
     </option>
   </component>
@@ -152,12 +164,6 @@
               <item name="CPSim" type="462c0819:PsiDirectoryNode" />
               <item name="cal" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="CPSim" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CPSim" type="462c0819:PsiDirectoryNode" />
-              <item name="CPSim" type="462c0819:PsiDirectoryNode" />
-              <item name="learning_complete" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -177,6 +183,9 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/CPSim" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/CPSim" />
     </key>
@@ -310,7 +319,10 @@
       <workItem from="1603236992770" duration="249000" />
       <workItem from="1604635707341" duration="1998000" />
       <workItem from="1604787592996" duration="3985000" />
-      <workItem from="1604885985735" duration="15039000" />
+      <workItem from="1604885985735" duration="16182000" />
+      <workItem from="1605682898246" duration="12704000" />
+      <workItem from="1606086781891" duration="16368000" />
+      <workItem from="1611525869971" duration="315000" />
     </task>
     <task id="LOCAL-00001" summary="Updated README.md with information on how to build a model.&#10;Switched neuron_dict so that it now contains neuron instances instead of ids. &#10;General code cleanup.">
       <created>1600401067517</created>
@@ -361,29 +373,36 @@
       <option name="project" value="LOCAL" />
       <updated>1604791483600</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Included synapses which can change their weights after a time period. &#10;Included a new type of calcium adaptation pyramidal cells.&#10;Mean over time function &#10;displays spikes with neuron voltage.">
+      <created>1604905726337</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1604905726337</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="65416000" />
+    <option name="totallyTimeSpent" value="95946000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="980" extended-state="6" />
+    <frame x="0" y="23" width="1680" height="979" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" weight="0.22100122" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.22588523" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Database Changes" order="0" />
       <window_info anchor="bottom" id="Terminal" order="1" />
-      <window_info anchor="bottom" id="Version Control" order="2" weight="0.14977477" />
+      <window_info anchor="bottom" id="Version Control" order="2" visible="true" weight="0.14881623" />
       <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Messages" order="4" />
       <window_info anchor="bottom" id="Python Console" order="5" />
       <window_info anchor="bottom" id="Docker" order="6" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="7" />
-      <window_info anchor="bottom" id="Find" order="8" />
-      <window_info active="true" anchor="bottom" id="Run" order="9" visible="true" weight="0.32995495" />
+      <window_info anchor="bottom" id="Find" order="8" weight="0.32919955" />
+      <window_info anchor="bottom" id="Run" order="9" weight="0.32919955" />
       <window_info anchor="bottom" id="Debug" order="10" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="11" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="12" weight="0.4" />
@@ -434,7 +453,8 @@
     <MESSAGE value="fixed a bug in psd plotting and saving. &#10;Allows user to build multiple excel files with the same name by appending an int" />
     <MESSAGE value="reset readme" />
     <MESSAGE value="Updated code to work with python 2 and 3&#10;Included difference and tentative statistics functions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated code to work with python 2 and 3&#10;Included difference and tentative statistics functions" />
+    <MESSAGE value="Included synapses which can change their weights after a time period. &#10;Included a new type of calcium adaptation pyramidal cells.&#10;Mean over time function &#10;displays spikes with neuron voltage." />
+    <option name="LAST_COMMIT_MESSAGE" value="Included synapses which can change their weights after a time period. &#10;Included a new type of calcium adaptation pyramidal cells.&#10;Mean over time function &#10;displays spikes with neuron voltage." />
   </component>
   <component name="WindowStateProjectService">
     <state x="674" y="323" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1600917903233">
@@ -548,13 +568,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CPSim/metadata.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="5" selection-start-column="5" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -613,10 +626,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CPSim/CSV_raw_neuron_voltage_Mitral.csv">
+      <provider selected="true" editor-type-id="csv-text-editor" />
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$USER_HOME$/Library/Containers/com.apple.mail/Data/Library/Mail Downloads/C554AC7C-2070-4091-A66C-ACF7359E9658/Synapse.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -628,10 +641,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CPSim/metadata.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CPSim/TPL.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="63" selection-start-line="20" selection-start-column="63" selection-end-line="20" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CPSim/kmodel.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="382">
+          <caret line="62" column="119" selection-start-line="62" selection-start-column="119" selection-end-line="62" selection-end-column="119" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CPSim/TPL2.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CPSim/Interpreter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2535">
+          <caret line="174" column="45" selection-start-line="174" selection-start-column="45" selection-end-line="174" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CPSim/Neuron.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="753">
-          <caret line="194" column="54" lean-forward="true" selection-start-line="194" selection-start-column="54" selection-end-line="194" selection-end-column="54" />
+        <state relative-caret-position="4260">
+          <caret line="285" column="22" selection-start-line="285" selection-start-column="5" selection-end-line="285" selection-end-column="22" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -640,35 +687,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CPSim/Synapse.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2852">
-          <caret line="305" column="28" selection-start-line="305" selection-start-column="28" selection-end-line="305" selection-end-column="28" />
+        <state relative-caret-position="5895">
+          <caret line="395" column="35" selection-start-line="395" selection-start-column="35" selection-end-line="395" selection-end-column="35" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CPSim/Interpreter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="82">
-          <caret line="527" selection-start-line="510" selection-end-line="527" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CPSim/kmodel.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="689">
-          <caret line="63" column="80" selection-start-line="63" selection-start-column="80" selection-end-line="63" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CPSim/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="230" lean-forward="true" selection-start-line="230" selection-end-line="230" />
+        <state relative-caret-position="475">
+          <caret line="180" column="27" lean-forward="true" selection-start-line="180" selection-start-column="27" selection-end-line="180" selection-end-column="27" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
