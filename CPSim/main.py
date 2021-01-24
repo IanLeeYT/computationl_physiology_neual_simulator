@@ -178,6 +178,18 @@ def apply_func(app_func, value_list, times):
         value_arr = value_arr.transpose()
         value_arr = np.sum(value_arr, axis=1)
         return np.arange(value_arr.shape[0]), [value_arr], "neuron number"
+    elif app_func == "total_sum":
+        value_list = [np.expand_dims(values_in, 1) for values_in in [values_in[times] for values_in in value_list]]
+        value_arr = np.concatenate(value_list, axis=1)
+        value_arr = value_arr.transpose()
+        value_arr = np.ones(2) * np.sum(value_arr)
+        return np.arange(2), [value_arr], ""
+    elif app_func == "total_mean":
+        value_list = [np.expand_dims(values_in, 1) for values_in in [values_in[times] for values_in in value_list]]
+        value_arr = np.concatenate(value_list, axis=1)
+        value_arr = value_arr.transpose()
+        value_arr = np.ones(2) * np.mean(value_arr)
+        return np.arange(2), [value_arr], ""
     elif app_func == "psd":
         value_list = [np.expand_dims(values_in, 1) for values_in in [values_in[times] for values_in in value_list]]
         value_arr = np.concatenate(value_list, axis=1)
